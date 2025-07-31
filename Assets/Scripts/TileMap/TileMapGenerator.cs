@@ -1,28 +1,51 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static TileMapHelpers;
 
 public class TileMapGenerator : MonoBehaviour
 {
+	public SpriteRenderer ArrowObject;
 	public PlayerController Player;
+
 	public Tilemap Foreground;
 	public Tilemap Background;
 	public TileSet TileSet;
 	private Room[] RoomsArray;
 
+	public EnemyBehave SkullPrefab;
+
 	// Start is called before the first frame update
-	void Start()
+	private void Start()
 		=> GenerateTileMap(1);
+
+	private void OnDrawGizmos()
+	{
+		//Draw the ground colliders on screen for debug purposes
+		Gizmos.color = new Color(1f, 0.6470f, 0);
+		Gizmos.DrawSphere(Foreground.CellToWorld(Vector3Int.zero), 0.1f);
+
+		if (RoomsArray != null)
+		{
+			foreach (Room room in RoomsArray)
+			{
+				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.RoomBounds));
+				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.ConnectionBounds));
+			}
+		}
+	}
 
 	private void UnGenerate()
 	{
+		foreach (Room room in RoomsArray)
+			room.CleanRoom();
+
 		RoomsArray = null;
 		Foreground.ClearAllTiles();
 		Background.ClearAllTiles();
 	}
 
 	private bool Generated = false;
+
 	public void GenerateTileMap(int level)
 	{
 		if (Generated)
@@ -49,6 +72,7 @@ public class TileMapGenerator : MonoBehaviour
 
 			RoomsArray[roomI] = room;
 			SetRoomTiles(room);
+			GenRoomEnemies(level, roomI, room);
 
 			nextRoomGround.x = room.ConnectionBounds.xMax;
 			nextRoomGround.y = room.ConnectionBounds.yMin - TileMapRandom.NextConnectionGroundOffset();
@@ -59,13 +83,19 @@ public class TileMapGenerator : MonoBehaviour
 		{
 			// We do this at the end so we can overlap previous room walls
 			SetHallTiles(RoomsArray[roomI], RoomsArray[roomI + 1]);
+			AddConnectionArrow(RoomsArray[roomI]);
 		}
-
 
 		Room room1 = RoomsArray[0];
 		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomBounds.center.x, room1.RoomBounds.yMin + 1));
 	}
 
+	private void AddConnectionArrow(Room room)
+	{
+		SpriteRenderer newArrow = Instantiate(ArrowObject);
+		newArrow.transform.position = Foreground.CellToWorld(room.ConnectionBounds).center;
+		room.AddRoomObject(newArrow.gameObject);
+	}
 
 	private void SetHallTiles(Room prevRoom, Room nextRoom)
 	{
@@ -97,5 +127,17 @@ public class TileMapGenerator : MonoBehaviour
 		SetXEdges(Foreground, roomBounds, TileSet.EdgeTiles);
 		SetYEdges(Foreground, roomBounds, TileSet.EdgeTiles);
 		BackdropFill(Background, roomBounds.Inflate(-1), TileSet);
+	}
+
+	private void GenRoomEnemies(int level, int roomNumber, Room room)
+	{
+		int enemyCount = Random.Range(0, level + 2);
+		for (int i = 0; i < enemyCount; i++)
+		{
+			EnemyBehave enemyBehave = Instantiate(SkullPrefab);
+			enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomBounds);
+			enemyBehave.transform.position = Extensions.RandomIn(enemyBehave.RoomArea);
+			room.AddRoomObject(enemyBehave.gameObject);
+		}
 	}
 }

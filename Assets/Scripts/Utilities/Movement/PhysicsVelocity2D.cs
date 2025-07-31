@@ -27,7 +27,7 @@ namespace Utilities.Movement
 		public void OnGround()
 			=> gravityVelocity = 0f;
 
-		public readonly Vector2 GetTotalVelocity() => internalVelocity + Vector2.down * gravityVelocity;
+		public readonly Vector2 GetTotalVelocity() => internalVelocity + (Vector2.down * gravityVelocity);
 
 		public void StepThenApplyTo(Transform transform)
 		{

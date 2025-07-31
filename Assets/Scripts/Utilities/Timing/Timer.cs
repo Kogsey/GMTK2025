@@ -73,15 +73,4 @@ namespace Utilities.Timing
 
 		public void Force() => Time = MaxTime + 1;
 	}
-
-	[Serializable]
-	public class TimerController
-	{
-		[SerializeField]
-		private readonly List<ITimer> Timers;
-
-		public void AddTimer(ITimer timer) => Timers.Add(timer);
-
-		public void Tick() => Timers.ForEach((timer) => timer.Tick());
-	}
 }

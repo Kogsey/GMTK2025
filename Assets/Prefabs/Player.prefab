@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2849999723564999705}
   - component: {fileID: 3730775657075768498}
   - component: {fileID: 2858053663278767126}
-  - component: {fileID: 6725319229431550291}
+  - component: {fileID: 2203150650548595339}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1029368525
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -8868272330977153355, guid: a7a93648a8f7f224e9bc1cb23ea96dfb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -171,47 +171,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4426056891217766689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a0aafadde663e499c1a9da056b53a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GUI: {fileID: 0}
-  HitPoints: 3
-  ImmunityTimer:
-    <Time>k__BackingField: 0
-    <MaxTime>k__BackingField: 1
---- !u!114 &2858053663278767126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426056891217766689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04bdf019376fbce4189ed27e9943b417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLength: 0.2
-  colliderOffsetX: 0.18
-  colliderOffsetY: -0.72
-  accountForVelocity: 1
-  maxVelocity: 0.5
-  airTimer:
-    <Time>k__BackingField: 0
-    <MaxTime>k__BackingField: 0.1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &6725319229431550291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426056891217766689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7976da7e269063a44970c4855ef30889, type: 3}
+  m_Script: {fileID: 11500000, guid: 5604ec90758ecd5418a1bfc2dfd6e9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShortDashTimerMax: 0.5
@@ -241,3 +201,48 @@ MonoBehaviour:
   QueueJumpTimer:
     <Time>k__BackingField: 100
     <MaxTime>k__BackingField: 0.06
+--- !u!114 &2858053663278767126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426056891217766689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bdf019376fbce4189ed27e9943b417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLength: 0.2
+  colliderOffsetX: 0.18
+  colliderOffsetY: -0.72
+  accountForVelocity: 1
+  maxVelocity: 0.5
+  airTimer:
+    <Time>k__BackingField: 0
+    <MaxTime>k__BackingField: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &2203150650548595339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426056891217766689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aadae17e99295e42853a0f2dd3a49da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
+  health: 0
+  MaxHealth: 3
+  ImmunityTimer:
+    <Time>k__BackingField: 0
+    <MaxTime>k__BackingField: 0.4
+  FlatDefence: 0
+  DamageReduction: 0
+  dodgeChange: 0

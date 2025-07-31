@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Room
@@ -25,11 +26,20 @@ public class Room
 	/// </summary>
 	public int ConnectionLength { get; set; }
 
+	private List<GameObject> RoomObjects { get; set; } = new List<GameObject>();
+	public void AddRoomObject(GameObject gameObject)
+		=> RoomObjects.Add(gameObject);
+	public void CleanRoom()
+	{
+		RoomObjects.ForEach(Object.Destroy);
+		RoomObjects.Clear();
+	}
+
 	public RectInt ConnectionBounds
 	{
 		get
 		{
-			Vector2Int position = new (RoomBounds.xMax, RoomBounds.yMin + ConnectionGroundOffset);
+			Vector2Int position = new(RoomBounds.xMax, RoomBounds.yMin + ConnectionGroundOffset);
 			Vector2Int size = new(ConnectionLength, ConnectionHallHeight);
 			return new(position, size);
 		}

@@ -52,14 +52,16 @@ public class StateManager : MonoBehaviour
 	private void Awake()
 	{
 		if (instance == null)
+		{
 			instance = this;
+		}
 		else
 		{
 			DestroyImmediate(this);
 			return;
 		}
 		DontDestroyOnLoad(gameObject);
-		Instantiate(MusicManagerPrefab);
+		_ = Instantiate(MusicManagerPrefab);
 		//Settings.CurrentSettings = SaveSystem.Load();
 	}
 
@@ -75,9 +77,7 @@ public class StateManager : MonoBehaviour
 	}
 
 	public void SpawnQuitGamePlayPopUp() // TODO: low priority: end game pop-up
-	{
-		SceneManager.LoadScene(MainMenuScreen);
-	}
+=> SceneManager.LoadScene(MainMenuScreen);
 
 	public static void GameOver()
 		=> SceneManager.LoadScene(LoseScreen);
@@ -86,8 +86,7 @@ public class StateManager : MonoBehaviour
 		=> SceneManager.LoadScene(WinScreen);
 
 	public static void QuitGame()
-	{
-		//SaveSystem.Save();
-		Application.Quit();
-	}
+		=> Application.Quit();
+
+	//SaveSystem.Save();
 }
