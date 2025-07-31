@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-	private static MusicManager instance;
-	public static MusicManager Instance => instance;
+	public static MusicManager Instance { get; private set; }
 
 	public AudioSource AudioSource;
 
@@ -11,9 +10,11 @@ public class MusicManager : MonoBehaviour
 
 	private void Awake()
 	{
-		if (instance == null)
-			instance = this;
-		else if (instance != this)
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else if (Instance != this)
 		{
 			Destroy(gameObject);
 			return;

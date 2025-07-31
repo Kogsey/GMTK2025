@@ -12,7 +12,7 @@ public record Settings
 	public KeyCode Dash = KeyCode.LeftShift;
 
 	public float Volume = 1f;
-	public bool MuteMusic = false;
+	public bool MuteMusic = true;
 
 	public static readonly Settings DefaultSettings = new();
 	public static readonly Settings CelesteStyleSettings = new()

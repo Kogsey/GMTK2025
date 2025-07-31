@@ -178,7 +178,9 @@ public class PlayerController : MonoBehaviour
 					QueueJumpTimer.Force();
 				}
 				else if (FloatTimeLeft > 0 && jumpKey && !OnGround) // else if can float and jump key down
+				{
 					JumpState = Jump.Floating;
+				}
 
 				break;
 
@@ -244,10 +246,10 @@ public class PlayerController : MonoBehaviour
 
 	public float GetXDrag()
 		=> (Input.GetKey(Settings.CurrentSettings.Left) || Input.GetKey(Settings.CurrentSettings.Right)) // If pressing movement key
-			?	(((Velocity.x < 0 && Input.GetKey(Settings.CurrentSettings.Right)) || (Velocity.x > 0 && Input.GetKey(Settings.CurrentSettings.Left))) // and if pressing the opposite direction to movement
-				?	XDragWhenNotMoving // High drag when moving in opposite direction to velocity
-				:	XDrag) // Low drag when moving in same dir as velocity
-				:	XDragWhenNotMoving; // High drag when pressing nothing
+			? (((Velocity.x < 0 && Input.GetKey(Settings.CurrentSettings.Right)) || (Velocity.x > 0 && Input.GetKey(Settings.CurrentSettings.Left))) // and if pressing the opposite direction to movement
+				? XDragWhenNotMoving // High drag when moving in opposite direction to velocity
+				: XDrag) // Low drag when moving in same dir as velocity
+				: XDragWhenNotMoving; // High drag when pressing nothing
 
 	public void CapSpeed()
 	{
@@ -282,7 +284,9 @@ public class PlayerController : MonoBehaviour
 	private void ChooseFrame()
 	{
 		if (JumpState == Jump.PreJump)
+		{
 			SetCurrentSprite(JumpFrames[0]);
+		}
 		else if (!CanJump)
 		{
 			if (Velocity.y > 0)
@@ -293,7 +297,9 @@ public class PlayerController : MonoBehaviour
 				SetCurrentSprite(FallFrame);
 		}
 		else
+		{
 			SetCurrentSprite(walkFrame);
+		}
 	}
 
 	private void SetCurrentSprite(Sprite value)

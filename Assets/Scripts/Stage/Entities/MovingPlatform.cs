@@ -59,7 +59,7 @@ public class MovingPlatform : MonoBehaviour
 			dampedDistanceMoved = Mathf.Lerp(0f, DistanceMoved, DistanceMoved / DampedDistance);
 		else if (PathLength - DistanceMoved <= DampedDistance)
 			dampedDistanceMoved = Mathf.Lerp(PathLength, DistanceMoved, (PathLength - DistanceMoved) / DampedDistance);
-		return HomePositon + VectorAngle * dampedDistanceMoved;
+		return HomePositon + (VectorAngle * dampedDistanceMoved);
 	}
 
 	//public void OnCollisionEnter2D(Collision2D collision)

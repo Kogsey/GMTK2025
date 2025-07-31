@@ -33,7 +33,7 @@ public class Floater : Enemy
 		if (FloaterOnRails)
 			RigidBody.MovePosition(FinalRailedPosition);
 		else
-			RigidBody.MovePosition(RigidBody.position + RailedBobDifference * Time.deltaTime);
+			RigidBody.MovePosition(RigidBody.position + (RailedBobDifference * Time.deltaTime));
 	}
 
 	private readonly float SpinCount = 10f;

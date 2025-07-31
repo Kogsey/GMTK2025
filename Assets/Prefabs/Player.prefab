@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1574229720922307214}
   - component: {fileID: 122364639234277814}
   - component: {fileID: 2849999723564999705}
-  - component: {fileID: 49132778819903440}
   - component: {fileID: 3730775657075768498}
   - component: {fileID: 2858053663278767126}
   - component: {fileID: 6725319229431550291}
@@ -58,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -163,55 +162,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.6}
   m_EdgeRadius: 0.1
---- !u!114 &49132778819903440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426056891217766689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 1
-  m_ComponentVersion: 3
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: e163362a00000000
-  m_ShapePath:
-  - {x: -0.5, y: -1, z: 0}
-  - {x: -1.1903627, y: 0.4769979, z: 0}
-  - {x: 0.49999952, y: 1, z: 0}
-  - {x: 0.49999952, y: -1, z: 0}
-  m_ShapePathHash: -601435965
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 2849999723564999705}
-  m_ShadowShape2DProvider:
-    rid: 2560557183340380161
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 0, y: -0.099998474, z: 0}
-      m_Extent: {x: 0.19999695, y: 0.34999847, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.05
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: 2560557183340380161
-      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 
 --- !u!114 &3730775657075768498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,16 +191,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bdf019376fbce4189ed27e9943b417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLength: 0.95
-  colliderOffset: {x: 0, y: 0, z: 0}
+  groundLength: 0.2
+  colliderOffsetX: 0.18
+  colliderOffsetY: -0.72
   accountForVelocity: 1
   maxVelocity: 0.5
-  groundedTimer:
+  airTimer:
     <Time>k__BackingField: 0
-    <MaxTime>k__BackingField: 0.05
+    <MaxTime>k__BackingField: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4294967295
 --- !u!114 &6725319229431550291
 MonoBehaviour:
   m_ObjectHideFlags: 0
