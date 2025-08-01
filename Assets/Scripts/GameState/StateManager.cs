@@ -9,7 +9,9 @@ public record Settings
 	public KeyCode Up = KeyCode.W;
 	public KeyCode Down = KeyCode.S;
 	public KeyCode Jump = KeyCode.Space;
-	public KeyCode Dash = KeyCode.LeftShift;
+	public KeyCode Dodge = KeyCode.LeftShift;
+	public KeyCode Primary = KeyCode.Mouse0;
+	public KeyCode Secondary = KeyCode.Mouse1;
 
 	public float Volume = 1f;
 	public bool MuteMusic = true;
@@ -22,7 +24,9 @@ public record Settings
 		Up = KeyCode.UpArrow,
 		Down = KeyCode.DownArrow,
 		Jump = KeyCode.C,
-		Dash = KeyCode.X,
+		Dodge = KeyCode.X,
+		Primary = KeyCode.Z,
+		Secondary = KeyCode.S,
 	};
 	public static Settings CurrentSettings { get; set; } = DefaultSettings;
 
@@ -34,7 +38,9 @@ public record Settings
 		Down = settings.Down;
 
 		Jump = settings.Jump;
-		Dash = settings.Dash;
+		Dodge = settings.Dodge;
+		Primary = settings.Primary;
+		Secondary = settings.Secondary;
 	}
 }
 

@@ -110,6 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracked: {fileID: 0}
   Offset: {x: 0, y: 2.5, z: -10}
+  TruePosition: {x: 0, y: 0, z: 0}
+  trackingStrength: 15
 --- !u!114 &5608317805201662228
 MonoBehaviour:
   m_ObjectHideFlags: 0

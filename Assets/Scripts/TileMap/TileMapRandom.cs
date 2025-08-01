@@ -4,15 +4,12 @@ using Random = UnityEngine.Random;
 
 public static class TileMapRandom
 {
-
-	/// <summary>
-	/// Maximum amount of tiles the player can clear when jumping
-	/// </summary>
+	/// <summary> Maximum amount of tiles the player can clear when jumping </summary>
 	public const int MaxTilesJump = 5;
-	/// <summary>
-	/// Minimum tiles the player can fit through
-	/// </summary>
-	public const int MinPlayerGap = 3;
+
+	/// <summary> Minimum tiles the player can fit through </summary>
+	public const int MinPlayerGap = 4;
+
 	public static readonly Vector2Int HomeBoxTopLeft = new(0, 0);
 
 	private static RectInt LevelToRoomRange(int level)
@@ -41,12 +38,11 @@ public static class TileMapRandom
 
 	/// <inheritdoc cref="Room.ConnectionHallHeight"/>
 	public static int NextConnectionHeight()
-		=> Random.Range(MinPlayerGap, 2 * MinPlayerGap);
+		=> Random.Range(MinPlayerGap + 1, (2 * MinPlayerGap) + 1);
 
 	/// <inheritdoc cref="Room.ConnectionGroundOffset"/>
 	public static int NextConnectionGroundOffset()
 		=> Random.Range(0, MaxTilesJump);
-
 }
 
 /*	public static float RoomSizeHelper(float mean, float exp)
@@ -55,8 +51,6 @@ public static class TileMapRandom
 		//int sign = Math.Sign(randGen);
 		//if (sign == -1)
 		//	randGen = -randGen;
-
-
 
 		float pow = MathF.Pow(randGen, exp);
 		float result = mean * MathF.Exp(-0.5f * pow);

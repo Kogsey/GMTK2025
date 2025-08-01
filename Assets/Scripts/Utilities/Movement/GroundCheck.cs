@@ -10,14 +10,14 @@ namespace Utilities.Movement
 
 		[Header("Collider Settings")]
 		[SerializeField][Tooltip("Length of the ground-checking collider")] private float groundLength = 0.2f;
+
 		[SerializeField][Tooltip("Distance between the ground-checking colliders")] private float colliderOffsetX = 0.18f;
 		[SerializeField][Tooltip("Distance between the ground-checking colliders")] private float colliderOffsetY = -0.72f;
 		[SerializeField][Tooltip("Cannot be grounded if moving upwards")] private bool accountForVelocity;
 		[SerializeField][Tooltip("The maximum speed that can be moved upwards and still be grounded")] private float maxVelocity;
-		[SerializeField][Tooltip("the timer for coyote time")] private CountUpTimer airTimer;
+		[SerializeField][Tooltip("The timer for coyote time")] private CountUpTimer airTimer;
 
-		[Header("Layer Masks")]
-		[SerializeField][Tooltip("Which layers are read as the ground")] private LayerMask groundLayer;
+		[SerializeField][Tooltip("Checks for what to count as ground")] private ContactFilter2D contactFilter;
 
 		private Vector3 LColliderOffset => new(colliderOffsetX, colliderOffsetY);
 		private Vector3 RColliderOffset => new(-colliderOffsetX, colliderOffsetY);
@@ -28,11 +28,14 @@ namespace Utilities.Movement
 		private void Update()
 		{
 			airTimer.Tick();
-			onGround = (Physics2D.Raycast(transform.position + LColliderOffset, Vector2.down, groundLength, groundLayer)
-				|| Physics2D.Raycast(transform.position + RColliderOffset, Vector2.down, groundLength, groundLayer)) && VelocityCheck;
+			onGround = VelocityCheck && (Raycast(transform.position + LColliderOffset)
+				|| Raycast(transform.position + RColliderOffset));
 			if (onGround)
 				airTimer.Reset();
 		}
+
+		private RaycastHit2D Raycast(Vector2 start)
+			=> Physics2D.defaultPhysicsScene.Raycast(start, Vector2.down, groundLength, contactFilter);
 
 		private void OnDrawGizmos()
 		{
@@ -42,9 +45,7 @@ namespace Utilities.Movement
 			Gizmos.DrawLine(transform.position + RColliderOffset, transform.position + RColliderOffset + (Vector3.down * groundLength));
 		}
 
-		/// <summary>
-		/// Remove double jump on floor glitch
-		/// </summary>
+		/// <summary> Remove double jump on floor glitch </summary>
 		private bool VelocityCheck
 			=> !accountForVelocity || rigidBody.velocityY < maxVelocity;
 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9f4414d95c7f4f04aa8a36f798a600f2
+guid: 6c0711cc1b8181c478738bc2a04ca231
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7189968546354295269
-    second: GreenBackground_0
+      213: -4693932192084691647
+    second: Dodge_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -110,22 +110,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlueBackground_0
+      name: Dodge_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 480
-        height: 270
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 80
+        height: 72
+      alignment: 9
+      pivot: {x: 0.4375, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 935065aa0d8fde990800000000000000
-      internalID: -7354949041331501767
+      spriteID: 14575037a8dcbdeb0800000000000000
+      internalID: -4693932192084691647
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 64018903c2a4e644a91537cc8f93cc79
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BlueBackground_0: -7354949041331501767
+      Dodge_0: -4693932192084691647
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

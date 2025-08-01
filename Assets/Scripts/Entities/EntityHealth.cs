@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Utilities.Timing;
 using Random = UnityEngine.Random;
@@ -8,8 +9,10 @@ public sealed class EntityHealth : MonoBehaviour
 {
 	public EntityBehave entity;
 	public SpriteRenderer SpriteRenderer;
+	public Collider2D[] DamageMeColliders;
 
-	public int health;
+	public bool CheatHealth;
+	private int health;
 	public int MaxHealth;
 
 	public CountDownTimer ImmunityTimer = new() { MaxTime = 0.4f };
@@ -27,25 +30,42 @@ public sealed class EntityHealth : MonoBehaviour
 			entity = GetComponent<EntityBehave>();
 		if (SpriteRenderer == null)
 			SpriteRenderer = GetComponent<SpriteRenderer>();
+		if (DamageMeColliders == null || DamageMeColliders.Length == 0)
+			DamageMeColliders = GetComponents<Collider2D>();
+
 		health = MaxHealth;
 	}
 
-	private void Update() => UpdateImmunity();
+	private void Update()
+	{
+		if (CheatHealth)
+			health = MaxHealth;
+		UpdateImmunity();
+	}
 
 	private int ImmunityFlasher;
+
 	private void UpdateImmunity()
 	{
 		ImmunityTimer.Tick();
 		ImmunityFlasher++;
 
-		SpriteRenderer.color = Immune ? new Color(1, 0, 0, ImmunityFlasher % 2 == 0 ? 0.5f : 1f) : Color.white;
+		SpriteRenderer.color = Immune ? new Color(1, 0, 0, ImmunityFlasher % 2 == 0 ? 0.5f : 1f) : entity.BaseColour;
 	}
 
 	/// <summary> Returns true on successful hit </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Code Style")]
 	public DamageInfo TryDealDamage(HitInfo hitInfo)
-		=> Immune ? DamageInfo.GetImmune()
-		: Random.Range(0f, 100f) > dodgeChange ? DealDamage(hitInfo)
-		: DamageInfo.GetMiss();
+	{
+		if ((hitInfo.HitType & entity.EntityType) == 0)
+			return DamageInfo.GetSimpleResult(DamageResult.Ignored);
+
+		if (Immune) // If immune
+			return DamageInfo.GetSimpleResult(DamageResult.Immune);
+		if (Random.Range(0f, 100f) <= dodgeChange) // If dodged
+			return DamageInfo.GetSimpleResult(DamageResult.Miss);
+		return DealDamage(hitInfo);
+	}
 
 	public DamageInfo DealDamage(HitInfo hitInfo)
 	{
@@ -70,9 +90,9 @@ public sealed class EntityHealth : MonoBehaviour
 
 	private void OnTrigger(Collider2D collision)
 	{
-		if (collision != null)
+		if (collision != null && DamageMeColliders.Any(col => collision.IsTouching(col)))
 		{
-			if (collision.gameObject.TryGetComponent(out EnemyBehave other))
+			if (collision.gameObject.TryGetComponent(out Aggressor other))
 			{
 				TryDealDamage(other.HitInfo);
 			}

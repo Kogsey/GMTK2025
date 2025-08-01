@@ -1,5 +1,6 @@
 // Ignore Spelling: Mult HitPoints Collider
 
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.Movement;
@@ -10,11 +11,12 @@ using Utilities.Timing;
 public class PlayerController : EntityBehave, ISingleton
 {
 	private GroundCheck groundCheck;
+	private SwordController sword;
 
 	private PhysicsVelocity2D Velocity;
 
 	private float MoveStateTimer;
-	private float FloatTimeLeft;
+	//private float FloatTimeLeft;
 
 	[Header("Movement")]
 	public float ShortDashTimerMax = 0.5f;
@@ -56,11 +58,16 @@ public class PlayerController : EntityBehave, ISingleton
 	public float YDrag;
 
 	[Header("Animation")]
-	public Sprite walkFrame;
+	public float MinimumAnimationSpeed;
 
-	public Sprite[] JumpFrames;
-	public Sprite FloatFrame;
-	public Sprite FallFrame;
+	public FrameData[] WalkFrames;
+
+	public FrameData[] DeathFrames;
+	public FrameData[] JumpFrames;
+	public FrameData[] IdleFrames;
+	public Sprite Dodge;
+
+	private AnimationHelper animationHelper;
 
 	private bool CanJump => groundCheck.GetGrounded();
 	private bool OnGround => groundCheck.GetGroundedPure();
@@ -68,7 +75,7 @@ public class PlayerController : EntityBehave, ISingleton
 	private float AirSpeedCap => 1.5f * GroundSpeedCap;
 
 	/// <summary> -1 for left, 1 for right </summary>
-	private int FaceDirection { get => SpriteRenderer.flipX ? 1 : -1; set => SpriteRenderer.flipX = value == 1; }
+	private int FaceDirection { get => (int)transform.localScale.x; set => transform.localScale = new Vector3(value, 1, 1); }
 
 	private int DashesLeft;
 	private readonly int maxDashes = 1;
@@ -79,8 +86,12 @@ public class PlayerController : EntityBehave, ISingleton
 	protected override void InternalStart()
 	{
 		base.InternalStart();
+		animationHelper = new(SpriteRenderer);
 		groundCheck = GetComponent<GroundCheck>();
 		RigidBody.gravityScale = GravityScale;
+
+		sword = GetComponentInChildren<SwordController>();
+		animationHelper.ForceToLoop(IdleFrames);
 	}
 
 	// Update is called once per frame
@@ -95,26 +106,30 @@ public class PlayerController : EntityBehave, ISingleton
 		ChooseFrame();
 	}
 
-	private void Update()
+	void Update()
 	{
-		if (Input.GetKeyDown(Settings.CurrentSettings.Jump))
+		if (!Dead && Input.GetKeyDown(Settings.CurrentSettings.Jump))
 			QueueJumpTimer.Reset();
 	}
 
 	public void UpdateTimers()
 	{
 		MoveStateTimer -= Velocity.DeltaTime; // Important to use internalVelocity's delta time
-		FloatTimeLeft -= Velocity.DeltaTime;
+											  //FloatTimeLeft -= Velocity.DeltaTime;
 		JumpStateTimer -= Velocity.DeltaTime;
+
+		QueueJumpTimer.Tick();
 	}
 
 	public void Movement()
 	{
-		if (Input.GetKey(Settings.CurrentSettings.Left) ^ Input.GetKey(Settings.CurrentSettings.Right)) //Exclusive or so do nothing if both held
-			MoveInDirection(Input.GetKey(Settings.CurrentSettings.Left) ? -1 : 1); // Directional movement
-
-		JumpMovement();
-		//DashMovement();
+		if (!Dead)
+		{
+			if (Input.GetKey(Settings.CurrentSettings.Left) ^ Input.GetKey(Settings.CurrentSettings.Right)) //Exclusive or so do nothing if both held
+				MoveInDirection(Input.GetKey(Settings.CurrentSettings.Left) ? -1 : 1); // Directional movement
+			JumpMovement();
+			//DashMovement();
+		}
 	}
 
 	public void MoveInDirection(int direction)
@@ -128,7 +143,8 @@ public class PlayerController : EntityBehave, ISingleton
 		None, // Moves to PreJump or Floating
 		PreJump, // Moves to HighJump
 		HighJump, // Moves to JumpDelay
-		Floating, // Moves to none
+
+		//Floating, // Moves to none
 		JumpDelay, //Moves to none
 	}
 
@@ -174,19 +190,21 @@ public class PlayerController : EntityBehave, ISingleton
 				if (CanJump && !QueueJumpTimer.Check())// If press jump key and can jump
 				{
 					JumpState = Jump.PreJump; // Start jump animation
-					FloatTimeLeft = FloatTimerMax;
+											  //FloatTimeLeft = FloatTimerMax;
 					QueueJumpTimer.Force();
 				}
-				else if (FloatTimeLeft > 0 && jumpKey && !OnGround) // else if can float and jump key down
-				{
-					JumpState = Jump.Floating;
-				}
+				/*				else if (FloatTimeLeft > 0 && jumpKey && !OnGround) // else if can float and jump key down
+								{
+									JumpState = Jump.Floating;
+								}*/
 
 				break;
 
 			case Jump.PreJump:
 				if (JumpStateTimer <= 0)
 				{
+					if (Velocity.y < 0)
+						Velocity.y = 0;
 					Velocity += (Mathf.Abs(Velocity.x) > HighJumpMinSpeed ? HighJumpForceMult : 1f) * BaseJumpImpulse * Vector2.up; // Boost internalVelocity
 					JumpState = Jump.HighJump;
 				}
@@ -203,23 +221,21 @@ public class PlayerController : EntityBehave, ISingleton
 				}
 				break;
 
-			case Jump.Floating:
-				if (!jumpKey || OnGround)
-					JumpState = Jump.None;
-				break;
+			/*			case Jump.Floating:
+							if (!jumpKey || OnGround)
+								JumpState = Jump.None;
+							break;*/
 
 			case Jump.JumpDelay:
 				if (JumpStateTimer < 0)
 					JumpState = Jump.None;
 				break;
 		}
-
-		QueueJumpTimer.Tick();
 	}
 
 	public void DashMovement()
 	{
-		if (DashesLeft > 0 && Input.GetKeyDown(Settings.CurrentSettings.Dash))
+		if (DashesLeft > 0 && Input.GetKeyDown(Settings.CurrentSettings.Dodge))
 		{
 			DashesLeft--;
 			Velocity += BaseDashImpulse * FaceDirection * Vector2.right;
@@ -255,7 +271,7 @@ public class PlayerController : EntityBehave, ISingleton
 	{
 		if (!CanJump)
 		{
-			CapFall(JumpState == Jump.Floating ? FloatSpeedCap : FallSpeedCap);
+			CapFall(/*JumpState == Jump.Floating ? FloatSpeedCap :*/ FallSpeedCap);
 			CapMovement(AirSpeedCap);
 		}
 		CapMovement(GroundSpeedCap);
@@ -281,31 +297,63 @@ public class PlayerController : EntityBehave, ISingleton
 
 	#region Sprites
 
+	private bool RunningSpeedMet => Math.Abs(Velocity.x) > MinimumAnimationSpeed;
+	private bool RiseSpeedMet => Velocity.y > MinimumAnimationSpeed;
+
 	private void ChooseFrame()
 	{
 		if (JumpState == Jump.PreJump)
 		{
-			SetCurrentSprite(JumpFrames[0]);
+			animationHelper.CheckedSwapToFrame(JumpFrames[2].Frame);
 		}
-		else if (!CanJump)
+		else if (RiseSpeedMet)
 		{
-			if (Velocity.y > 0)
-				SetCurrentSprite(JumpFrames[1]);
-			else if (JumpState == Jump.Floating)
-				SetCurrentSprite(FloatFrame);
+			animationHelper.CheckedSwapToFrame(JumpFrames[0].Frame);
+		}
+		else if (!OnGround)
+		{
+			animationHelper.CheckedSwapToFrame(JumpFrames[1].Frame);
+		}
+		else if (OnGround)
+		{
+			if (RunningSpeedMet && JumpState == Jump.None)
+				animationHelper.CheckedSwapToSequence(WalkFrames);
 			else
-				SetCurrentSprite(FallFrame);
+				animationHelper.CheckedSwapToSequence(IdleFrames);
 		}
-		else
-		{
-			SetCurrentSprite(walkFrame);
-		}
+
+		animationHelper.Update();
+
+		/*		if (JumpState == Jump.PreJump)
+				{
+					SetCurrentSprite(JumpFrames[0]);
+				}
+				else if (!CanJump)
+				{
+					if (Velocity.y > 0)
+						SetCurrentSprite(JumpFrames[1]);
+					else if (JumpState == Jump.Floating)
+						SetCurrentSprite(FloatFrame);
+					else
+						SetCurrentSprite(FallFrame);
+				}
+				else
+				{
+					SetCurrentSprite(walkFrame);
+				}*/
 	}
 
-	private void SetCurrentSprite(Sprite value)
-		=> SpriteRenderer.sprite = value;
+	private bool Dead;
 
-	public override void OnDeath() => throw new System.NotImplementedException();
+	public override void OnDeath()
+	{
+		animationHelper.CheckedSwapToSequence(DeathFrames);
+		animationHelper.LoopAnimation = false;
+		animationHelper.FreezeChanges = true;
+		if (!Dead)
+			sword.DeathClatter();
+		Dead = true;
+	}
 
 	#endregion Sprites
 

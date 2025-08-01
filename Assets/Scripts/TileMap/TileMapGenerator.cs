@@ -55,11 +55,14 @@ public class TileMapGenerator : MonoBehaviour
 		int rooms = TileMapRandom.RandomRoomCount(level);
 		RoomsArray = new Room[rooms];
 		Vector2Int nextRoomGround = TileMapRandom.HomeBoxTopLeft;
+		int nextRoomMinY = -1;
 
 		for (int roomI = 0; roomI < rooms; roomI++)
 		{
 			Vector2Int size = TileMapRandom.GenRandBoxSize(level);
 			RectInt rect = new(nextRoomGround, size);
+			if (rect.yMax < nextRoomMinY)
+				rect.yMax = nextRoomMinY;
 
 			Room room = new()
 			{
@@ -71,23 +74,32 @@ public class TileMapGenerator : MonoBehaviour
 			};
 
 			RoomsArray[roomI] = room;
-			SetRoomTiles(room);
-			GenRoomEnemies(level, roomI, room);
+
+			SetViewPaddingTiles(room);
 
 			nextRoomGround.x = room.ConnectionBounds.xMax;
 			nextRoomGround.y = room.ConnectionBounds.yMin - TileMapRandom.NextConnectionGroundOffset();
+			nextRoomMinY = room.ConnectionBounds.yMax;
+		}
+
+		for (int roomI = 0; roomI < rooms; roomI++)
+		{
+			Room room = RoomsArray[roomI];
+			SetRoomTiles(room);
+			GenRoomEnemies(level, roomI, room);
 		}
 
 		// Go to until the last room since it has no connections
 		for (int roomI = 0; roomI < rooms - 1; roomI++)
 		{
 			// We do this at the end so we can overlap previous room walls
-			SetHallTiles(RoomsArray[roomI], RoomsArray[roomI + 1]);
-			AddConnectionArrow(RoomsArray[roomI]);
+			Room room = RoomsArray[roomI];
+			SetHallTiles(room, RoomsArray[roomI + 1]);
+			AddConnectionArrow(room);
 		}
 
 		Room room1 = RoomsArray[0];
-		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomBounds.center.x, room1.RoomBounds.yMin + 1));
+		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomBounds.center.x, (int)room1.RoomBounds.center.y));
 	}
 
 	private void AddConnectionArrow(Room room)
@@ -116,7 +128,7 @@ public class TileMapGenerator : MonoBehaviour
 			cornerTiles.TopRight = TileSet.EdgeTiles.Top;
 
 		SetCorners(Foreground, connection, cornerTiles);
-		BackdropFill(Background, connection.Inflate(0, -1), TileSet);
+		ClearFill(Foreground, connection.Inflate(0, -1));
 	}
 
 	private void SetRoomTiles(Room room)
@@ -126,7 +138,14 @@ public class TileMapGenerator : MonoBehaviour
 		SetCorners(Foreground, roomBounds, TileSet.InnerCorners);
 		SetXEdges(Foreground, roomBounds, TileSet.EdgeTiles);
 		SetYEdges(Foreground, roomBounds, TileSet.EdgeTiles);
-		BackdropFill(Background, roomBounds.Inflate(-1), TileSet);
+		ClearFill(Foreground, roomBounds.Inflate(-1));
+	}
+
+	private const int ViewPadding = 16;
+
+	private void SetViewPaddingTiles(Room room)
+	{
+		BackdropFill(Foreground, room.RoomBounds.Inflate(ViewPadding), TileSet);
 	}
 
 	private void GenRoomEnemies(int level, int roomNumber, Room room)

@@ -12,12 +12,16 @@ public static class TileMapHelpers
 		SetBottomLeftCorner(tileMap, bounds, cornerTiles);
 		SetBottomRightCorner(tileMap, bounds, cornerTiles);
 	}
+
 	public static void SetBottomLeftCorner(Tilemap tileMap, RectInt bounds, CornerTiles cornerTiles)
 		=> tileMap.SetTile(new Vector3Int(bounds.xMin, bounds.yMin), cornerTiles.BottomLeft);
+
 	public static void SetBottomRightCorner(Tilemap tileMap, RectInt bounds, CornerTiles cornerTiles)
 		=> tileMap.SetTile(new Vector3Int(bounds.xMax, bounds.yMin), cornerTiles.BottomRight);
+
 	public static void SetTopLeftCorner(Tilemap tileMap, RectInt bounds, CornerTiles cornerTiles)
 		=> tileMap.SetTile(new Vector3Int(bounds.xMin, bounds.yMax), cornerTiles.TopLeft);
+
 	public static void SetTopRightCorner(Tilemap tileMap, RectInt bounds, CornerTiles cornerTiles)
 		=> tileMap.SetTile(new Vector3Int(bounds.xMax, bounds.yMax), cornerTiles.TopRight);
 
@@ -47,6 +51,16 @@ public static class TileMapHelpers
 				tileMap.SetTile(new Vector3Int(xPos, yPos), tileSet.BackgroundTiles.PickRandom());
 		}
 	}
+
+	public static void ClearFill(Tilemap tileMap, RectInt bounds)
+	{
+		for (int xPos = bounds.xMin; xPos <= bounds.xMax; xPos++)
+		{
+			for (int yPos = bounds.yMin; yPos <= bounds.yMax; yPos++)
+				tileMap.SetTile(new Vector3Int(xPos, yPos), null);
+		}
+	}
+
 	public static void BackdropFill(Tilemap tileMap, RectInt bounds, ReadOnlySpan<TileBase> pickFrom)
 	{
 		for (int xPos = bounds.xMin; xPos <= bounds.xMax; xPos++)

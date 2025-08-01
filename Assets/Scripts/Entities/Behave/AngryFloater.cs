@@ -7,18 +7,27 @@ using UnityEngine;
 public class AngryFloater : EnemyBehave
 {
 	public float MoveSpeed = 1f;
+	private const float DeadGravity = 1f;
 
 	protected override void InternalUpdate()
 	{
 		base.InternalUpdate();
-		if (TargetVector.magnitude < MoveSpeed / 10)
+
+		if (Dead)
 		{
-			RigidBody.velocity = Vector3.zero;
-			RigidBody.transform.position = TargetPos;
+			RigidBody.drag = 1f;
 		}
 		else
 		{
-			RigidBody.velocity = TargetVector.normalized * MoveSpeed;
+			if (TargetVector.magnitude < MoveSpeed / 10)
+			{
+				RigidBody.velocity = Vector3.zero;
+				RigidBody.transform.position = TargetPos;
+			}
+			else
+			{
+				RigidBody.velocity = TargetVector.normalized * MoveSpeed;
+			}
 		}
 	}
 
@@ -45,5 +54,11 @@ public class AngryFloater : EnemyBehave
 		RigidBody.constraints |= RigidbodyConstraints2D.FreezeRotation;
 	}
 
-	public override void OnDeath() => throw new System.NotImplementedException();
+	public override void OnDeath()
+	{
+		base.OnDeath();
+		RigidBody.gravityScale = DeadGravity;
+		if (TryGetComponent(out Collider2D collision))
+			collision.isTrigger = false;
+	}
 }
