@@ -47,6 +47,7 @@ public record Settings
 public class StateManager : MonoBehaviour
 {
 	public const string MainMenuScreen = "Menu";
+	public const string HomeScreen = "Home";
 	public const string GameScreen = "Primary Level";
 	public const string WinScreen = "Win Game";
 	public const string LoseScreen = "Lose Game";

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 198907023}
   - component: {fileID: 198907022}
   m_Layer: 5
-  m_Name: Retry
+  m_Name: The End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 95d233b0c070848478a906bd1e46db33, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: 21300000, guid: 6de806a9a0a79b84891c68ceb003569f, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 372874037}
   - component: {fileID: 372874036}
   m_Layer: 5
-  m_Name: Thankyou
+  m_Name: Win Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,8 +314,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 95d233b0c070848478a906bd1e46db33, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: 21300000, guid: 6de806a9a0a79b84891c68ceb003569f, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -985,8 +985,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 95d233b0c070848478a906bd1e46db33, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: 21300000, guid: 6de806a9a0a79b84891c68ceb003569f, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
