@@ -53,7 +53,8 @@ public class LightHelper : MonoBehaviour
 		SpriteRenderer.sortingOrder = sorting;
 		Chain.sortingOrder = sorting;
 
-		Light.color = lamp.LampColour;
+		if (Light != null)
+			Light.color = lamp.LampColour;
 
 		animationHelper.CheckedSwapToSequence(lamp.LampFrames, TimePerFrame);
 	}

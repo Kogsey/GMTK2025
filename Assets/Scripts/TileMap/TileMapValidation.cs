@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Tilemaps;
 
 public static class TileMapValidation
 {
@@ -53,5 +56,35 @@ public static class TileMapValidation
 			Debug.LogWarning("Hall Spawned Too Tall.");
 		if (left.RoomTilesBounds.yMin > connection.yMin)
 			Debug.LogWarning("Room Spawned Too High.");
+	}
+
+	public static void ValidateEntities(Tilemap tileMap, Room[] rooms)
+	{
+		foreach (Room room in rooms)
+		{
+			foreach (GameObject obj in room.EnumerateRoomObjects)
+			{
+				if (obj.TryGetComponent(out Light2D _) && obj.TryGetComponent(out SpriteRenderer spriteRenderer))
+				{
+					if (!IsValidLightPos(spriteRenderer, tileMap, rooms))
+						Debug.LogWarning("Light Outside Bounds At " + spriteRenderer.bounds.ZFlattened().ToString());
+				}
+			}
+		}
+	}
+
+	private static bool IsValidLightPos(SpriteRenderer light, Tilemap tileMap, Room[] rooms)
+	{
+		bool inAny = rooms.Any(room => IsContainedByRoomOrHall(light, tileMap, room));
+
+		return inAny;
+	}
+
+	private static bool IsContainedByRoomOrHall(SpriteRenderer light, Tilemap tileMap, Room room)
+	{
+		Rect tileMapRect = tileMap.CellToWorld(room.RoomTilesBounds);
+		Rect connectionRect = tileMap.CellToWorld(room.ConnectionBounds);
+		Rect lightBounds = light.bounds.ZFlattened();
+		return tileMapRect.Contains(lightBounds) || connectionRect.Contains(lightBounds);
 	}
 }

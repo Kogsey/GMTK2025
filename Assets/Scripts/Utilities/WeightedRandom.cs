@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WeightedRandom<T>
 {
@@ -26,5 +28,29 @@ public class WeightedRandom<T>
 		}
 
 		return _weights[^1].value;
+	}
+}
+
+public static class WeightedRandom
+{
+	public static T Pick<T>(IList<T> _weights, Func<T, float> weightFunc)
+	{
+		float totalWeights = 0f;
+
+		foreach (T value in _weights)
+			totalWeights += weightFunc(value);
+
+		float chosenWeight = Random.Range(0, totalWeights);
+
+		foreach (T value in _weights)
+		{
+			float weight = weightFunc(value);
+			if (chosenWeight < weight)
+				return value;
+			else
+				chosenWeight -= weight;
+		}
+
+		return _weights[^1];
 	}
 }

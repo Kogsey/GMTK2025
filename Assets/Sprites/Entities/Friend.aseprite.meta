@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3bedf38a5a64b914aa3e1b17012435dd
+guid: a272843d4f2e98343b47b8e710e3a84b
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -119,18 +119,38 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: BatImp_Frame_0
+  - name: Friend_Frame_0
     originalName: 
-    pivot: {x: 0.7027027, y: -0.6296296}
+    pivot: {x: 0.49999997, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 62
+      width: 25
+      height: 51
+    spriteID: 73bbfabd83dffcb4daeedd2c2ee65361
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 62}
+  - name: Friend_Frame_1
+    originalName: 
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 37
-      height: 27
-    spriteID: 249be5732a2f161448877d3523cd459f
+      width: 29
+      height: 50
+    spriteID: ae2dcf160e9e2e64ea2de72eb337c7b2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -139,219 +159,31 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: BatImp_Frame_1
-    originalName: 
-    pivot: {x: 0.8235294, y: -1.0666667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 88
-      y: 39
-      width: 34
-      height: 15
-    spriteID: bd0c445cad84d4345bfc94bc83b9fbf6
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 88, y: 39}
-  - name: BatImp_Frame_2
-    originalName: 
-    pivot: {x: 0.85294116, y: -0.36363637}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 46
-      y: 39
-      width: 34
-      height: 22
-    spriteID: 0c8e92bd8b6155044b74889d8c9b2e1b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 46, y: 39}
-  - name: BatImp_Frame_3
-    originalName: 
-    pivot: {x: 0.8235294, y: -1.2142857}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 46
-      y: 70
-      width: 34
-      height: 14
-    spriteID: 4627ba46406858046ae756c6e706742b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 46, y: 70}
-  - name: BatImp_Frame_4
-    originalName: 
-    pivot: {x: 0.7027027, y: -0.6296296}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 49
-      y: 4
-      width: 37
-      height: 27
-    spriteID: 2589bead06adde64aaa3381e988f83f9
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 49, y: 4}
-  - name: BatImp_Frame_5
-    originalName: 
-    pivot: {x: 0.8235294, y: -1.0666667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 70
-      width: 34
-      height: 15
-    spriteID: 977bb44c138eb5644894926ea28bad21
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 70}
-  - name: BatImp_Frame_6
-    originalName: 
-    pivot: {x: 0.85294116, y: -0.3478261}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 39
-      width: 34
-      height: 23
-    spriteID: f9053ebfa73e4704585e697c034ec38c
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 39}
-  - name: BatImp_Frame_7
-    originalName: 
-    pivot: {x: 0.8235294, y: -1.2142857}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 88
-      y: 70
-      width: 34
-      height: 14
-    spriteID: 554b9507676b2144dab7d51af8130159
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 88, y: 70}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1169338723
-    name: BatImp
+    guid: -419276694
+    name: Friend
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: BatImp_Frame_0
+    - name: Friend_Frame_0
       frameIndex: 0
       cellRect:
-        x: 6
-        y: 17
-        width: 37
-        height: 27
-      spriteId: 249be5732a2f161448877d3523cd459f
-    - name: BatImp_Frame_1
+        x: 2
+        y: 0
+        width: 25
+        height: 51
+      spriteId: 73bbfabd83dffcb4daeedd2c2ee65361
+    - name: Friend_Frame_1
       frameIndex: 1
       cellRect:
-        x: 4
-        y: 16
-        width: 34
-        height: 15
-      spriteId: bd0c445cad84d4345bfc94bc83b9fbf6
-    - name: BatImp_Frame_2
-      frameIndex: 2
-      cellRect:
-        x: 3
-        y: 8
-        width: 34
-        height: 22
-      spriteId: 0c8e92bd8b6155044b74889d8c9b2e1b
-    - name: BatImp_Frame_3
-      frameIndex: 3
-      cellRect:
-        x: 4
-        y: 17
-        width: 34
-        height: 14
-      spriteId: 4627ba46406858046ae756c6e706742b
-    - name: BatImp_Frame_4
-      frameIndex: 4
-      cellRect:
-        x: 6
-        y: 17
-        width: 37
-        height: 27
-      spriteId: 2589bead06adde64aaa3381e988f83f9
-    - name: BatImp_Frame_5
-      frameIndex: 5
-      cellRect:
-        x: 4
-        y: 16
-        width: 34
-        height: 15
-      spriteId: 977bb44c138eb5644894926ea28bad21
-    - name: BatImp_Frame_6
-      frameIndex: 6
-      cellRect:
-        x: 3
-        y: 8
-        width: 34
-        height: 23
-      spriteId: f9053ebfa73e4704585e697c034ec38c
-    - name: BatImp_Frame_7
-      frameIndex: 7
-      cellRect:
-        x: 4
-        y: 17
-        width: 34
-        height: 14
-      spriteId: 554b9507676b2144dab7d51af8130159
+        x: 0
+        y: 0
+        width: 29
+        height: 50
+      spriteId: ae2dcf160e9e2e64ea2de72eb337c7b2
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -390,4 +222,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 64}
+  canvasSize: {x: 29, y: 51}

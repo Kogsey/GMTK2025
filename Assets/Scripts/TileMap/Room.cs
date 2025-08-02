@@ -41,6 +41,8 @@ public class Room
 
 	private List<GameObject> RoomObjects { get; set; } = new List<GameObject>();
 
+	public IEnumerable<GameObject> EnumerateRoomObjects => RoomObjects;
+
 	public void AddRoomObject(GameObject gameObject)
 		=> RoomObjects.Add(gameObject);
 

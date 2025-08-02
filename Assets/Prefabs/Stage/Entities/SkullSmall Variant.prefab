@@ -82,6 +82,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2627155579619779141, guid: 9b5aebcc9a336b14fa199162419b5b2a, type: 3}
+      propertyPath: m_ShadowShape2DProvider
+      value: 9192508804184670213
+      objectReference: {fileID: 0}
+    - target: {fileID: 2627155579619779141, guid: 9b5aebcc9a336b14fa199162419b5b2a, type: 3}
+      propertyPath: m_ShadowShape2DComponent
+      value: 
+      objectReference: {fileID: -7703366176657775308}
+    - target: {fileID: 2627155579619779141, guid: 9b5aebcc9a336b14fa199162419b5b2a, type: 3}
+      propertyPath: 'managedReferences[9192508804184670213]'
+      value: Unity.RenderPipelines.Universal.2D.Runtime UnityEngine.Rendering.Universal.ShadowShape2DProvider_Collider2D
+      objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 9b5aebcc9a336b14fa199162419b5b2a, type: 3}
       propertyPath: m_SortingLayer
       value: 4
