@@ -15,8 +15,8 @@ public class MainMenu : MonoBehaviour
 
 	public void ButtonToggleSFX()
 	{
-		MusicManager.Instance.ToggleMusic();
-		MusicText.text = "Music: " + (MusicManager.Instance.MuteMusic ? "Off" : "On");
+		BetterSingleton<MusicManager>.Instance.ToggleMusic();
+		MusicText.text = "Music: " + (BetterSingleton<MusicManager>.Instance.MuteMusic ? "Off" : "On");
 	}
 
 	public void SetKeyBindingCeleste()

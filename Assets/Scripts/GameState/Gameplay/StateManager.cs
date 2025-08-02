@@ -44,33 +44,13 @@ public record Settings
 	}
 }
 
-public class StateManager : MonoBehaviour
+public class StateManager : BetterSingleton<StateManager>
 {
 	public const string MainMenuScreen = "Menu";
 	public const string HomeScreen = "Home";
 	public const string GameScreen = "Primary Level";
 	public const string WinScreen = "Win Game";
 	public const string LoseScreen = "Lose Game";
-
-	public GameObject MusicManagerPrefab;
-
-	private static StateManager instance;
-
-	private void Awake()
-	{
-		if (instance == null)
-		{
-			instance = this;
-		}
-		else
-		{
-			DestroyImmediate(this);
-			return;
-		}
-		DontDestroyOnLoad(gameObject);
-		_ = Instantiate(MusicManagerPrefab);
-		//Settings.CurrentSettings = SaveSystem.Load();
-	}
 
 	public void Update()
 	{

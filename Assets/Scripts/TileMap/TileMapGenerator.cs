@@ -9,6 +9,7 @@ public class TileMapGenerator : MonoBehaviour
 {
 	public SpriteRenderer ArrowObject;
 	public PlayerController Player;
+	public NextLevelCollider NextLevel;
 
 	public Tilemap Foreground;
 	public Tilemap Background;
@@ -19,10 +20,6 @@ public class TileMapGenerator : MonoBehaviour
 	public float SupportEnemiesChance = 0.25f;
 
 	public LightHelper HangingLampPrefab;
-
-	// Start is called before the first frame update
-	private void Start()
-		=> GenerateTileMap(1);
 
 	public float MinGlobalLighting;
 	public float MaxGlobalLighting;
@@ -156,6 +153,15 @@ public class TileMapGenerator : MonoBehaviour
 
 		Room room1 = RoomsArray[0];
 		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomTilesBounds.center.x, (int)room1.RoomTilesBounds.center.y));
+
+		Room finalRoom = RoomsArray[^1];
+		RectInt endTileBounds = finalRoom.ConnectionBounds;
+		endTileBounds.xMin += 1;
+		Rect endRect = Foreground.CellToWorld(endTileBounds);
+
+		NextLevelCollider nextLevelCollider = Instantiate(NextLevel);
+		nextLevelCollider.SetBounds(endRect);
+		finalRoom.AddRoomObject(nextLevelCollider.gameObject);
 
 		TileMapValidation.ValidateEntities(Foreground, RoomsArray);
 	}

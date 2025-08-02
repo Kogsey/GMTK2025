@@ -7,7 +7,6 @@ using Utilities.Movement;
 using Utilities.Timing;
 
 [RequireComponent(typeof(GroundCheck))]
-[Singleton]
 public class PlayerController : EntityBehave, ISingleton
 {
 	private EntityHealth healthData;
@@ -112,6 +111,10 @@ public class PlayerController : EntityBehave, ISingleton
 		ChooseFrame();
 	}
 
+	public void UpdateData(PlayerData playerData)
+	{
+	}
+
 	void Update()
 	{
 		if (!Dead)
@@ -120,6 +123,12 @@ public class PlayerController : EntityBehave, ISingleton
 				QueueJumpTimer.Reset();
 			if (Input.GetKeyDown(Settings.CurrentSettings.Dodge))
 				QueueDodgeTimer.Reset();
+		}
+		else
+		{
+			DeathTime -= Time.deltaTime;
+			if (DeathTime <= 0)
+				BetterSingleton<GameplayLoop>.Instance.OnDeath();
 		}
 	}
 
@@ -381,6 +390,7 @@ public class PlayerController : EntityBehave, ISingleton
 	}
 
 	private bool Dead;
+	private float DeathTime = 5f;
 
 	public override void OnDeath()
 	{

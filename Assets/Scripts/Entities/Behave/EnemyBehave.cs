@@ -5,7 +5,7 @@ public abstract class EnemyBehave : EntityBehave
 {
 	public bool Dead;
 	private float DeadTimer;
-	private PlayerController Player => Singleton<PlayerController>.instance;
+	private PlayerController Player => FindAnyObjectByType<PlayerController>();
 
 	public int SightRange = 20;
 	public int AlreadySeenSightRange = 20;

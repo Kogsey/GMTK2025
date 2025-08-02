@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DropSystem : MonoBehaviour
+public class DropSystem : BetterSingleton<DropSystem>
 {
 	public ItemDropCategory[] ItemDrops;
 	public FloorItem DropPrefab;

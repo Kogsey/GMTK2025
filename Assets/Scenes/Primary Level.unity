@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrowObject: {fileID: 1908814527165150184, guid: 33a6b206cb1f0fb488552a75a619eec0, type: 3}
   Player: {fileID: 1896687797}
+  NextLevel: {fileID: -603956796516822955, guid: 0b235266e89efc4468d1607856eff9d4, type: 3}
   Foreground: {fileID: 1880922360}
   Background: {fileID: 1291105192}
   TileSet:
@@ -282,10 +283,10 @@ MonoBehaviour:
       Max: 1
     PrimarySpawnWeight: 0.1
     SupportSpawnWeight: 0
-    ExtraWeightPerLevelPrimary: 0.3
-    ExtraWeightPerLevelSupport: 0.3
-    ExtraSpawnsPerLevelPrimary: 0.1
-    ExtraSpawnsPerLevelSupport: 0.2
+    ExtraWeightPerLevelPrimary: 0.6
+    ExtraWeightPerLevelSupport: 0.4
+    ExtraSpawnsPerLevelPrimary: 0.2
+    ExtraSpawnsPerLevelSupport: 0.3
     Flags: 1
     Prefab: {fileID: 2392712473423557238, guid: 666c43ef2016a8944939495cbefeaeb7, type: 3}
   SupportEnemiesChance: 0.25

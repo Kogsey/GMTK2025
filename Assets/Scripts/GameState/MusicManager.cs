@@ -1,26 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour
+public class MusicManager : BetterSingleton<MusicManager>, ISingleton
 {
-	public static MusicManager Instance { get; private set; }
-
 	public AudioSource AudioSource;
 
 	public AudioClip[] PossibleSongs;
 
-	private void Awake()
+	protected override void AwakeInternal()
 	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else if (Instance != this)
-		{
-			Destroy(gameObject);
-			return;
-		}
-
-		DontDestroyOnLoad(gameObject);
+		base.AwakeInternal();
 		ReloadMusic();
 	}
 
