@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
 public static class Extensions
@@ -59,10 +57,7 @@ public static class Extensions
 		=> new(Random.Range(rect.xMin, rect.xMax), Random.Range(rect.yMin, rect.yMax));
 
 	public static Rect ZFlattened(this Bounds bounds)
-		=> new((Vector2)bounds.min, (Vector2)bounds.max);
-
-	public static bool Intersects(this Rect rect, Rect other)
-		=> other.xMin < rect.xMax && rect.xMin < other.xMax && other.yMin < rect.yMax && rect.yMin < other.yMax;
+		=> new((Vector2)bounds.min, (Vector2)bounds.size);
 
 	public static RectInt Inflate(this RectInt rect, int amount)
 		=> rect.Inflate(amount, amount);

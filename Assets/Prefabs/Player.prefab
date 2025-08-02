@@ -190,7 +190,7 @@ MonoBehaviour:
   DodgeTime: 0.5
   DodgeSpeedOverride: 0
   InDodgeRails: 0
-  DodgePaddingFrames: 0
+  DodgeNoImmuneTime: 0
   GravityScale: 3
   ExtendedJumpGravityScale: 0.1
   XDrag: 0.975
@@ -242,9 +242,14 @@ MonoBehaviour:
   - FrameTime: 0.2
     Frame: {fileID: -4925560481185812424, guid: ed209d9fbf6eaa443a32303b19a9949b, type: 3}
   Dodge: {fileID: -4693932192084691647, guid: 6c0711cc1b8181c478738bc2a04ca231, type: 3}
+  DodgesLeft: 0
+  maxDodges: 1
   QueueJumpTimer:
     <Time>k__BackingField: 100
     <MaxTime>k__BackingField: 0.2
+  QueueDodgeTimer:
+    <Time>k__BackingField: 0
+    <MaxTime>k__BackingField: 0
 --- !u!114 &2858053663278767126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +296,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aadae17e99295e42853a0f2dd3a49da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthBar: {fileID: 0}
   entity: {fileID: 3730775657075768498}
   SpriteRenderer: {fileID: 1574229720922307214}
   DamageMeColliders: []
   CheatHealth: 0
-  MaxHealth: 3
+  MaxHealth: 10
   ImmunityTimer:
     <Time>k__BackingField: 0
     <MaxTime>k__BackingField: 0.4

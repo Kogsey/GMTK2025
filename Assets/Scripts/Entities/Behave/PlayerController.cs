@@ -395,6 +395,13 @@ public class PlayerController : EntityBehave, ISingleton
 
 	#endregion Sprites
 
+	private void OnDrawGizmosSelected()
+	{
+		if (SpriteRenderer == null)
+			SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		Extensions.GizmosDrawRect(BoundsCheckingRect);
+	}
+
 	public Rect BoundsCheckingRect => SpriteRenderer.bounds.ZFlattened();
 
 	//public bool IsUpFacing(Collision2D collision)

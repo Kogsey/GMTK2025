@@ -8,7 +8,7 @@ public class AnimationHelper
 	public bool LoopAnimation { get; set; } = true;
 	public bool Paused { get; set; }
 	public bool AnimationEnded { get; private set; }
-	public int currentFrame { get; private set; }
+	public int CurrentFrame { get; private set; }
 
 	private readonly SpriteRenderer spriteRenderer;
 	private FrameType currentFrameType;
@@ -17,6 +17,22 @@ public class AnimationHelper
 
 	public AnimationHelper(SpriteRenderer spriteRenderer)
 		=> this.spriteRenderer = spriteRenderer;
+
+	public void CheckedSwapToSequence(Sprite[] sLoop, float timePerFrame)
+	{
+		FrameData[] loop = new FrameData[sLoop.Length];
+		for (int i = 0; i < sLoop.Length; i++)
+		{
+			loop[i] = new()
+			{
+				Frame = sLoop[i],
+				FrameTime = timePerFrame,
+			};
+		}
+
+		if ((currentFrameType != FrameType.Sequence || currentFrames != loop) && !FreezeChanges)
+			ForceToLoop(loop);
+	}
 
 	public void CheckedSwapToSequence(FrameData[] loop)
 	{
@@ -47,40 +63,43 @@ public class AnimationHelper
 
 	private void EndLastAnimation()
 	{
-		currentFrame = 0;
+		CurrentFrame = 0;
 		frameTimer = 0;
 		AnimationEnded = false;
 		currentFrames = null;
 	}
 
-	public void Update()
+	public void Update(float deltaTime)
 	{
 		if (currentFrameType == FrameType.Sequence)
 		{
 			if (!Paused)
-				frameTimer += Time.deltaTime;
-			if (frameTimer > currentFrames[currentFrame].FrameTime)
+				frameTimer += deltaTime;
+			if (frameTimer > currentFrames[CurrentFrame].FrameTime)
 			{
-				currentFrame++;
+				CurrentFrame++;
 
-				if (currentFrame >= currentFrames.Length)
+				if (CurrentFrame >= currentFrames.Length)
 				{
 					if (LoopAnimation)
 					{
-						currentFrame = 0;
+						CurrentFrame = 0;
 					}
 					else
 					{
-						currentFrame = currentFrames.Length - 1;
+						CurrentFrame = currentFrames.Length - 1;
 						AnimationEnded = true;
 					}
 				}
 
-				SetCurrentSprite(currentFrames[currentFrame].Frame);
+				SetCurrentSprite(currentFrames[CurrentFrame].Frame);
 				frameTimer = 0;
 			}
 		}
 	}
+
+	public void Update()
+		=> Update(Time.smoothDeltaTime);
 
 	private void SetCurrentSprite(Sprite sprite)
 		=> spriteRenderer.sprite = sprite;

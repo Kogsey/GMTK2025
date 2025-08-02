@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 using static TileMapHelpers;
+using Random = UnityEngine.Random;
 
 public class TileMapGenerator : MonoBehaviour
 {
@@ -17,11 +17,13 @@ public class TileMapGenerator : MonoBehaviour
 	public SpawnInfo[] Enemies;
 	public float SupportEnemiesChance = 0.25f;
 
+	public LightHelper HangingLampPrefab;
+
 	// Start is called before the first frame update
 	private void Start()
 		=> GenerateTileMap(1);
 
-	private void OnDrawGizmos()
+	private void OnDrawGizmosSelected()
 	{
 		//Draw the ground colliders on screen for debug purposes
 		Gizmos.color = new Color(1f, 0.6470f, 0);
@@ -31,7 +33,7 @@ public class TileMapGenerator : MonoBehaviour
 		{
 			foreach (Room room in RoomsArray)
 			{
-				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.RoomBounds));
+				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.RoomTilesBounds));
 				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.ConnectionBounds));
 			}
 		}
@@ -60,19 +62,16 @@ public class TileMapGenerator : MonoBehaviour
 		int rooms = TileMapRandom.RandomRoomCount(level);
 		RoomsArray = new Room[rooms];
 		Vector2Int nextRoomGround = TileMapRandom.HomeBoxTopLeft;
-		int nextRoomMinY = -1;
 
 		for (int roomI = 0; roomI < rooms; roomI++)
 		{
 			Vector2Int size = TileMapRandom.GenRandBoxSize(level);
 			RectInt rect = new(nextRoomGround, size);
-			if (rect.yMax < nextRoomMinY)
-				rect.yMax = nextRoomMinY;
 
 			Room room = new()
 			{
 				Type = roomI == 0 ? Room.RoomType.Starting : Room.RoomType.Simple,
-				RoomBounds = rect,
+				RoomTilesBounds = rect,
 				ConnectionGroundOffset = TileMapRandom.NextConnectionGroundOffset(),
 				ConnectionHallHeight = TileMapRandom.NextConnectionHeight(),
 				ConnectionLength = TileMapRandom.NextConnectionLength(),
@@ -80,18 +79,24 @@ public class TileMapGenerator : MonoBehaviour
 
 			RoomsArray[roomI] = room;
 
+			if (roomI > 0)
+				TileMapValidation.ValidateRooms(RoomsArray[roomI - 1], room);
+
 			SetViewPaddingTiles(room);
 
 			nextRoomGround.x = room.ConnectionBounds.xMax;
 			nextRoomGround.y = room.ConnectionBounds.yMin - TileMapRandom.NextConnectionGroundOffset();
-			nextRoomMinY = room.ConnectionBounds.yMax;
 		}
 
 		for (int roomI = 0; roomI < rooms; roomI++)
 		{
 			Room room = RoomsArray[roomI];
 			SetRoomTiles(room);
-			GenRoomEnemies(level, roomI, room);
+
+			if (room.Type == Room.RoomType.Simple)
+				GenRoomEnemies(level, roomI, room);
+
+			GenRoomLamps(room);
 		}
 
 		// Go to until the last room since it has no connections
@@ -104,7 +109,7 @@ public class TileMapGenerator : MonoBehaviour
 		}
 
 		Room room1 = RoomsArray[0];
-		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomBounds.center.x, (int)room1.RoomBounds.center.y));
+		Player.transform.position = Foreground.CellToWorld(new Vector3Int((int)room1.RoomTilesBounds.center.x, (int)room1.RoomTilesBounds.center.y));
 	}
 
 	private void AddConnectionArrow(Room room)
@@ -122,14 +127,14 @@ public class TileMapGenerator : MonoBehaviour
 
 		CornerTiles cornerTiles = TileSet.OuterCorners;
 
-		if (prevRoom.RoomBounds.yMin == connection.yMin)
+		if (prevRoom.RoomTilesBounds.yMin == connection.yMin)
 			cornerTiles.BottomLeft = TileSet.EdgeTiles.Bottom;
-		if (nextRoom.RoomBounds.yMin == connection.yMin)
+		if (nextRoom.RoomTilesBounds.yMin == connection.yMin)
 			cornerTiles.BottomRight = TileSet.EdgeTiles.Bottom;
 
-		if (prevRoom.RoomBounds.yMax == connection.yMax)
+		if (prevRoom.RoomTilesBounds.yMax == connection.yMax)
 			cornerTiles.TopLeft = TileSet.EdgeTiles.Top;
-		if (nextRoom.RoomBounds.yMax == connection.yMax)
+		if (nextRoom.RoomTilesBounds.yMax == connection.yMax)
 			cornerTiles.TopRight = TileSet.EdgeTiles.Top;
 
 		SetCorners(Foreground, connection, cornerTiles);
@@ -138,7 +143,7 @@ public class TileMapGenerator : MonoBehaviour
 
 	private void SetRoomTiles(Room room)
 	{
-		RectInt roomBounds = room.RoomBounds;
+		RectInt roomBounds = room.RoomTilesBounds;
 
 		SetCorners(Foreground, roomBounds, TileSet.InnerCorners);
 		SetXEdges(Foreground, roomBounds, TileSet.EdgeTiles);
@@ -149,11 +154,9 @@ public class TileMapGenerator : MonoBehaviour
 	private const int ViewPadding = 16;
 
 	private void SetViewPaddingTiles(Room room)
-	{
-		BackdropFill(Foreground, room.RoomBounds.Inflate(ViewPadding), TileSet);
-	}
+		=> BackdropFill(Foreground, room.RoomTilesBounds.Inflate(ViewPadding), TileSet);
 
-	private void GenRoomEnemies(int level, int roomNumber, Room room)
+	private void GenRoomEnemies(int level, int _, Room room)
 	{
 		(SpawnInfo primary, SpawnInfo support) = PickSpawnInfo();
 
@@ -185,14 +188,51 @@ public class TileMapGenerator : MonoBehaviour
 			EnemyBehave enemyBehave = Instantiate(spawnInfo.Prefab);
 			if (spawnInfo.Flags.HasFlag(SpawnFlags.Floater))
 			{
-				enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomBounds);
+				enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomTilesBounds);
 				enemyBehave.transform.position = Extensions.RandomIn(enemyBehave.RoomArea);
 			}
 			else
+			{
 				throw new NotImplementedException();
+			}
 
 			room.AddRoomObject(enemyBehave.gameObject);
 		}
+	}
+
+	public float MinLampsPerTile = 0.2f;
+	public float MaxLampsPerTile = 0.6f;
+
+	private void GenRoomLamps(Room room)
+	{
+		float minLamps = room.RoomTilesWidth * MinLampsPerTile;
+		float maxLamps = room.RoomTilesWidth * MaxLampsPerTile;
+
+		float lamps = Random.Range(minLamps, maxLamps);
+		int rounded = Mathf.CeilToInt(lamps);
+		Rect roomBounds = Foreground.CellToWorld(room.RoomTilesBounds.Inflate(-1));
+		for (int i = 0; i < rounded; i++)
+		{
+			LightHelper light = Instantiate(HangingLampPrefab);
+			Vector2 lightSize = light.SpriteRenderer.bounds.size;
+			float lightPPU = light.SpriteRenderer.sprite.pixelsPerUnit;
+			//Vector2 lightPivot = light.SpriteRenderer.sprite.pivot * lightPPU;
+			//float lightTopOffset = lightSize.y - lightPivot.y;
+
+			light.transform.position = GetLightPosition(roomBounds, lightSize, lightPPU);
+			float chainLength = roomBounds.yMax - light.SpriteRenderer.bounds.max.y;
+			light.SetChainHeight(chainLength);
+
+			room.AddRoomObject(light.gameObject);
+		}
+	}
+
+	private Vector2 GetLightPosition(Rect roomBounds, Vector2 lightSize, float PPU)
+	{
+		float x = Random.Range(roomBounds.xMin + lightSize.x, roomBounds.xMax + lightSize.y);
+		float y = Extensions.RandomGaussianMinMax(roomBounds.yMin + lightSize.y, roomBounds.yMax - lightSize.y);
+
+		return Extensions.PixelPerfectClamp(new Vector2(x, y), PPU);
 	}
 
 	private WeightedRandom<SpawnInfo> PrimaryWeightedRandom;
