@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 using static TileMapHelpers;
 
 public class TileMapGenerator : MonoBehaviour
@@ -12,7 +14,8 @@ public class TileMapGenerator : MonoBehaviour
 	public TileSet TileSet;
 	private Room[] RoomsArray;
 
-	public EnemyBehave SkullPrefab;
+	public SpawnInfo[] Enemies;
+	public float SupportEnemiesChance = 0.25f;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -50,6 +53,8 @@ public class TileMapGenerator : MonoBehaviour
 	{
 		if (Generated)
 			UnGenerate();
+
+		RegenRandoms(level);
 		Generated = true;
 
 		int rooms = TileMapRandom.RandomRoomCount(level);
@@ -150,13 +155,74 @@ public class TileMapGenerator : MonoBehaviour
 
 	private void GenRoomEnemies(int level, int roomNumber, Room room)
 	{
-		int enemyCount = Random.Range(0, level + 2);
+		(SpawnInfo primary, SpawnInfo support) = PickSpawnInfo();
+
+		int min = primary.PrimarySpawnCount.Min;
+		int max = primary.PrimarySpawnCount.Max;
+
+		min += (int)(primary.ExtraSpawnsPerLevelPrimary * level);
+		max += (int)(primary.ExtraSpawnsPerLevelPrimary * level);
+
+		GenRoomEnemies_Inner(room, min, max, primary);
+
+		if (support != null)
+		{
+			min = support.AsSupportCount.Min;
+			max = support.AsSupportCount.Max;
+
+			min += (int)(support.ExtraSpawnsPerLevelSupport * level);
+			max += (int)(support.ExtraSpawnsPerLevelSupport * level);
+
+			GenRoomEnemies_Inner(room, min, max, support);
+		}
+	}
+
+	private void GenRoomEnemies_Inner(Room room, int minEnemies, int maxEnemies, SpawnInfo spawnInfo)
+	{
+		int enemyCount = Random.Range(minEnemies, maxEnemies + 1);
 		for (int i = 0; i < enemyCount; i++)
 		{
-			EnemyBehave enemyBehave = Instantiate(SkullPrefab);
-			enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomBounds);
-			enemyBehave.transform.position = Extensions.RandomIn(enemyBehave.RoomArea);
+			EnemyBehave enemyBehave = Instantiate(spawnInfo.Prefab);
+			if (spawnInfo.Flags.HasFlag(SpawnFlags.Floater))
+			{
+				enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomBounds);
+				enemyBehave.transform.position = Extensions.RandomIn(enemyBehave.RoomArea);
+			}
+			else
+				throw new NotImplementedException();
+
 			room.AddRoomObject(enemyBehave.gameObject);
 		}
+	}
+
+	private WeightedRandom<SpawnInfo> PrimaryWeightedRandom;
+	private WeightedRandom<SpawnInfo> SupportWeightedRandom;
+
+	private void RegenRandoms(int level)
+	{
+		PrimaryWeightedRandom = new();
+		SupportWeightedRandom = new();
+
+		foreach (SpawnInfo item in Enemies)
+		{
+			if (item.CanBePrimary)
+				PrimaryWeightedRandom.AddElement(item.PrimarySpawnWeight + (item.ExtraWeightPerLevelPrimary * level), item);
+
+			if (item.CanBeSupport)
+				SupportWeightedRandom.AddElement(item.SupportSpawnWeight + (item.ExtraWeightPerLevelSupport * level), item);
+		}
+	}
+
+	private (SpawnInfo Primary, SpawnInfo Support) PickSpawnInfo()
+	{
+		SpawnInfo primary = PrimaryWeightedRandom.Pick();
+		SpawnInfo support = null;
+
+		if (Random.value <= SupportEnemiesChance)
+		{
+			support = SupportWeightedRandom.Pick();
+		}
+
+		return (primary, support);
 	}
 }

@@ -175,20 +175,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5604ec90758ecd5418a1bfc2dfd6e9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityType: 0
-  ShortDashTimerMax: 0.5
+  EntityType: 2
   PreJumpTimerMax: 0.1
   JumpDelayTimerMax: 0.5
   ExtendedJumpTimerMax: 0.15
   FloatTimerMax: 3
   BaseSpeedForce: 15
   BaseJumpImpulse: 600
-  BaseDashImpulse: 12
   FloatSpeedCap: -1.5
   GroundSpeedCap: 17
   HighJumpMinSpeed: 0.15
   HighJumpForceMult: 1.2
   HighJumpTimeMult: 1
+  DodgeTime: 0.5
+  DodgeSpeedOverride: 0
+  InDodgeRails: 0
+  DodgePaddingFrames: 0
   GravityScale: 3
   ExtendedJumpGravityScale: 0.1
   XDrag: 0.975
@@ -289,8 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aadae17e99295e42853a0f2dd3a49da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 0}
-  SpriteRenderer: {fileID: 0}
+  entity: {fileID: 3730775657075768498}
+  SpriteRenderer: {fileID: 1574229720922307214}
   DamageMeColliders: []
   CheatHealth: 0
   MaxHealth: 3
@@ -403,17 +405,17 @@ MonoBehaviour:
   SmallSwingCollider: {fileID: 2256319750469536376}
   BigSwingCollider: {fileID: 3463635260116723446}
   BigHitInfo:
-    HitType: 0
+    HitType: 1
     RawDamage: 2
     Pierce: 2
   SmallHitInfo:
-    HitType: 0
+    HitType: 1
     RawDamage: 1
     Pierce: 1
   Idle:
   - FrameTime: 1
     Frame: {fileID: 21300000, guid: cdbdbc9be04352746834c57ca6e13b2a, type: 3}
-  BigSwingHitboxFrame: 0
+  BigSwingHitboxFrame: 5
   Swing:
   - FrameTime: 0.1
     Frame: {fileID: -1611528380827693435, guid: 8508cd773dc00db4184f4cdea26b5be8, type: 3}
@@ -442,7 +444,7 @@ MonoBehaviour:
     Frame: {fileID: -3446587206574568594, guid: bb93bae7f89c3d2489ae40a59c3d0bbf, type: 3}
   - FrameTime: 0.1
     Frame: {fileID: -6138923622079511719, guid: bb93bae7f89c3d2489ae40a59c3d0bbf, type: 3}
-  SmallSwingHitboxFrame: 0
+  SmallSwingHitboxFrame: 3
 --- !u!61 &2256319750469536376
 BoxCollider2D:
   m_ObjectHideFlags: 0

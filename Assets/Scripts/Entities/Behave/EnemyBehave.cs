@@ -30,7 +30,12 @@ public abstract class EnemyBehave : EntityBehave
 	}
 
 	public override void OnDeath()
-		=> Dead = true;
+	{
+		if (TryGetComponent<Aggressor>(out Aggressor aggressor))
+			aggressor.HitInfo = HitInfo.GetImpotent();
+
+		Dead = true;
+	}
 
 	public Vector2 TargetVector => TargetPos - (Vector2)transform.position;
 }

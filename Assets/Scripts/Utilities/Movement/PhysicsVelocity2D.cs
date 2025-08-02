@@ -35,6 +35,9 @@ namespace Utilities.Movement
 			transform.position += (Vector3)GetTotalVelocity() * DeltaTime;
 		}
 
+		public void SetVelocity(Vector2 vector2)
+			=> internalVelocity = vector2;
+
 #pragma warning disable IDE1006 // Naming Styles
 		public float x { readonly get => internalVelocity.x; set => internalVelocity.x = value; }
 		public float y { readonly get => internalVelocity.y; set => internalVelocity.y = value; }

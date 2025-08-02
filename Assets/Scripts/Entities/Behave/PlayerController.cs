@@ -6,22 +6,21 @@ using UnityEngine;
 using Utilities.Movement;
 using Utilities.Timing;
 
-[RequireComponent(typeof(GroundCheck))]
+[RequireComponent(typeof(GroundCheck), typeof(EntityHealth))]
 [Singleton]
 public class PlayerController : EntityBehave, ISingleton
 {
+	private EntityHealth healthData;
 	private GroundCheck groundCheck;
 	private SwordController sword;
 
 	private PhysicsVelocity2D Velocity;
 
-	private float MoveStateTimer;
-	//private float FloatTimeLeft;
+	private float DodgeStateTimer;
 
 	[Header("Movement")]
-	public float ShortDashTimerMax = 0.5f;
-
 	public float PreJumpTimerMax = 0.4f;
+
 	public float JumpDelayTimerMax = 0.5f;
 	public float ExtendedJumpTimerMax = 0.4f;
 	public float FloatTimerMax = 3f;
@@ -30,7 +29,6 @@ public class PlayerController : EntityBehave, ISingleton
 	public float BaseSpeedForce;
 
 	public float BaseJumpImpulse;
-	public float BaseDashImpulse;
 
 	[Space]
 	public float FloatSpeedCap;
@@ -42,6 +40,15 @@ public class PlayerController : EntityBehave, ISingleton
 
 	public float HighJumpForceMult;
 	public float HighJumpTimeMult;
+
+	[Space]
+	public float DodgeTime = 0.5f;
+
+	public float DodgeSpeedOverride;
+
+	public bool InDodgeRails;
+	public float DodgeNoImmuneTime;
+	private bool IsDodgeImmune => InDodgeRails && DodgeStateTimer <= (DodgeTime - DodgeNoImmuneTime);
 
 	[Header("Environment")]
 	public float GravityScale;
@@ -77,8 +84,8 @@ public class PlayerController : EntityBehave, ISingleton
 	/// <summary> -1 for left, 1 for right </summary>
 	private int FaceDirection { get => (int)transform.localScale.x; set => transform.localScale = new Vector3(value, 1, 1); }
 
-	private int DashesLeft;
-	private readonly int maxDashes = 1;
+	public int DodgesLeft;
+	public int maxDodges = 1;
 
 	#region Movement
 
@@ -86,6 +93,7 @@ public class PlayerController : EntityBehave, ISingleton
 	protected override void InternalStart()
 	{
 		base.InternalStart();
+		healthData = GetComponent<EntityHealth>();
 		animationHelper = new(SpriteRenderer);
 		groundCheck = GetComponent<GroundCheck>();
 		RigidBody.gravityScale = GravityScale;
@@ -108,27 +116,37 @@ public class PlayerController : EntityBehave, ISingleton
 
 	void Update()
 	{
-		if (!Dead && Input.GetKeyDown(Settings.CurrentSettings.Jump))
-			QueueJumpTimer.Reset();
+		if (!Dead)
+		{
+			if (Input.GetKeyDown(Settings.CurrentSettings.Jump))
+				QueueJumpTimer.Reset();
+			if (Input.GetKeyDown(Settings.CurrentSettings.Dodge))
+				QueueDodgeTimer.Reset();
+		}
 	}
 
 	public void UpdateTimers()
 	{
-		MoveStateTimer -= Velocity.DeltaTime; // Important to use internalVelocity's delta time
-											  //FloatTimeLeft -= Velocity.DeltaTime;
+		DodgeStateTimer -= Velocity.DeltaTime; // Important to use internalVelocity's delta time
+											   //FloatTimeLeft -= Velocity.DeltaTime;
 		JumpStateTimer -= Velocity.DeltaTime;
 
 		QueueJumpTimer.Tick();
+		QueueDodgeTimer.Tick();
 	}
 
 	public void Movement()
 	{
 		if (!Dead)
 		{
-			if (Input.GetKey(Settings.CurrentSettings.Left) ^ Input.GetKey(Settings.CurrentSettings.Right)) //Exclusive or so do nothing if both held
-				MoveInDirection(Input.GetKey(Settings.CurrentSettings.Left) ? -1 : 1); // Directional movement
-			JumpMovement();
-			//DashMovement();
+			DodgeMovement();
+
+			if (!InDodgeRails)
+			{
+				if (Input.GetKey(Settings.CurrentSettings.Left) ^ Input.GetKey(Settings.CurrentSettings.Right)) //Exclusive or so do nothing if both held
+					MoveInDirection(Input.GetKey(Settings.CurrentSettings.Left) ? -1 : 1); // Directional movement
+				JumpMovement();
+			}
 		}
 	}
 
@@ -179,6 +197,7 @@ public class PlayerController : EntityBehave, ISingleton
 
 	private float JumpStateTimer = -1;
 	public CountUpTimer QueueJumpTimer;
+	public CountUpTimer QueueDodgeTimer;
 
 	public void JumpMovement()
 	{
@@ -233,17 +252,32 @@ public class PlayerController : EntityBehave, ISingleton
 		}
 	}
 
-	public void DashMovement()
+	public void DodgeMovement()
 	{
-		if (DashesLeft > 0 && Input.GetKeyDown(Settings.CurrentSettings.Dodge))
+		if (!InDodgeRails)
 		{
-			DashesLeft--;
-			Velocity += BaseDashImpulse * FaceDirection * Vector2.right;
-			MoveStateTimer = ShortDashTimerMax;
+			if (OnGround)
+				DodgesLeft = maxDodges;
+
+			if (DodgesLeft > 0 && !QueueDodgeTimer.Check())
+			{
+				DodgesLeft--;
+				DodgeStateTimer = DodgeTime;
+				InDodgeRails = true;
+			}
 		}
 
-		if (CanJump && MoveStateTimer <= 0)
-			DashesLeft = maxDashes;
+		if (InDodgeRails)
+		{
+			Velocity.SetVelocity(DodgeSpeedOverride * -FaceDirection * Vector2.right);
+
+			if (DodgeStateTimer <= 0)
+			{
+				InDodgeRails = false;
+			}
+		}
+
+		healthData.OtherImmune = IsDodgeImmune;
 	}
 
 	#region FinalUpdate
@@ -302,7 +336,11 @@ public class PlayerController : EntityBehave, ISingleton
 
 	private void ChooseFrame()
 	{
-		if (JumpState == Jump.PreJump)
+		if (InDodgeRails)
+		{
+			animationHelper.CheckedSwapToFrame(Dodge);
+		}
+		else if (JumpState == Jump.PreJump)
 		{
 			animationHelper.CheckedSwapToFrame(JumpFrames[2].Frame);
 		}

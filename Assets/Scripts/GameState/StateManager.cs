@@ -9,7 +9,7 @@ public record Settings
 	public KeyCode Up = KeyCode.W;
 	public KeyCode Down = KeyCode.S;
 	public KeyCode Jump = KeyCode.Space;
-	public KeyCode Dodge = KeyCode.LeftShift;
+	public KeyCode Dodge = KeyCode.S;
 	public KeyCode Primary = KeyCode.Mouse0;
 	public KeyCode Secondary = KeyCode.Mouse1;
 
@@ -24,7 +24,7 @@ public record Settings
 		Up = KeyCode.UpArrow,
 		Down = KeyCode.DownArrow,
 		Jump = KeyCode.C,
-		Dodge = KeyCode.X,
+		Dodge = KeyCode.DownArrow,
 		Primary = KeyCode.Z,
 		Secondary = KeyCode.S,
 	};

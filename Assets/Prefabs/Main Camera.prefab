@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2156028968306777114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2935306746210039485}
+  - component: {fileID: 5298339433621139138}
+  m_Layer: 0
+  m_Name: Backdrop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2935306746210039485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156028968306777114}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3797175859316067847}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5298339433621139138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156028968306777114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8f5002ce724d54695487a5b761a42b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParallaxTracking: {fileID: 3797175859316067847}
+  BackdropPrefab: {fileID: 4822662890748899604, guid: 3b8ad309acd7a4046967857e28c60637, type: 3}
+  ParallaxPrefab: {fileID: 8640277955621463354, guid: 75881c17ca29ab445a689458d042af37, type: 3}
+  Backdrops:
+  - {fileID: 21300000, guid: 46de06e58b5f7bd4e94d8e759855ad9e, type: 3}
+  - {fileID: 21300000, guid: 43c5ba14e622e4147aadb46a5cc5adb1, type: 3}
+  - {fileID: 21300000, guid: 004f06d741e0bfd4fbc6a4af09ddcfd5, type: 3}
+  - {fileID: 21300000, guid: 9f4414d95c7f4f04aa8a36f798a600f2, type: 3}
+  ParallaxBackdrops:
+  - {fileID: 21300000, guid: c46dbcdd4a7e8b44588999d4c463b09f, type: 3}
+  - {fileID: 21300000, guid: 6fb2bd1881c83af48a5bff4e7b7b2431, type: 3}
+  ParallaxPosition: {x: 0, y: 1}
+  ParallaxFactor: 0.3
+  Distance: 0
 --- !u!1 &3542260483681457514
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +92,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4041822912072746295}
+  - {fileID: 2935306746210039485}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,7 +106,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 1, g: 0, b: 0.81438303, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -109,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracked: {fileID: 0}
-  Offset: {x: 0, y: 2.5, z: -10}
+  Offset: {x: 0, y: 0.8, z: -10}
   TruePosition: {x: 0, y: 0, z: 0}
   trackingStrength: 15
 --- !u!114 &5608317805201662228
