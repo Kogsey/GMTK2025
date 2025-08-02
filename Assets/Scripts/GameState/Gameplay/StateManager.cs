@@ -80,6 +80,8 @@ public class StateManager : MonoBehaviour
 				QuitGame();
 			else if (SceneManager.GetActiveScene().name == GameScreen)
 				SpawnQuitGamePlayPopUp();
+			else if (SceneManager.GetActiveScene().name == HomeScreen)
+				SpawnQuitGamePlayPopUp();
 		}
 	}
 
