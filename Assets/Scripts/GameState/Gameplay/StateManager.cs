@@ -60,11 +60,13 @@ public class StateManager : BetterSingleton<StateManager>
 				QuitGame();
 			else if (SceneManager.GetActiveScene().name == GameScreen)
 				SpawnQuitGamePlayPopUp();
+			else if (SceneManager.GetActiveScene().name == HomeScreen)
+				SpawnQuitGamePlayPopUp();
 		}
 	}
 
 	public void SpawnQuitGamePlayPopUp() // TODO: low priority: end game pop-up
-=> SceneManager.LoadScene(MainMenuScreen);
+		=> SceneManager.LoadScene(MainMenuScreen);
 
 	public static void GameOver()
 		=> SceneManager.LoadScene(LoseScreen);
