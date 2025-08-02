@@ -55,7 +55,7 @@ public class SwordController : MonoBehaviour
 		}
 		else
 		{
-			if (animationHelper.currentFrame >= CurrentHitFrame)
+			if (animationHelper.CurrentFrame >= CurrentHitFrame)
 			{
 				CurrentCollider.enabled = true;
 			}

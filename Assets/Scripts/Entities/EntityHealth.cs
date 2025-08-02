@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(EntityBehave), typeof(SpriteRenderer))]
 public sealed class EntityHealth : MonoBehaviour
 {
+	public HealthBar HealthBar;
 	public EntityBehave entity;
 	public SpriteRenderer SpriteRenderer;
 	public Collider2D[] DamageMeColliders;
@@ -35,6 +36,10 @@ public sealed class EntityHealth : MonoBehaviour
 			SpriteRenderer = GetComponent<SpriteRenderer>();
 		if (DamageMeColliders == null || DamageMeColliders.Length == 0)
 			DamageMeColliders = GetComponents<Collider2D>();
+		if (HealthBar == null)
+			HealthBar = GetComponentInChildren<HealthBar>();
+
+		HealthBar.Setup(MaxHealth);
 
 		health = MaxHealth;
 	}
@@ -90,6 +95,10 @@ public sealed class EntityHealth : MonoBehaviour
 
 		int finalDamage = hitInfo.RawDamage - Mathf.FloorToInt(hitInfo.RawDamage * DamageReduction) - finalDefence;
 		health -= finalDamage;
+
+		if (HealthBar != null)
+			HealthBar.UpdateBar(health);
+
 		if (health <= 0)
 			entity.OnDeath();
 

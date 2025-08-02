@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
 public static class Extensions
@@ -59,10 +57,7 @@ public static class Extensions
 		=> new(Random.Range(rect.xMin, rect.xMax), Random.Range(rect.yMin, rect.yMax));
 
 	public static Rect ZFlattened(this Bounds bounds)
-		=> new((Vector2)bounds.min, (Vector2)bounds.max);
-
-	public static bool Intersects(this Rect rect, Rect other)
-		=> other.xMin < rect.xMax && rect.xMin < other.xMax && other.yMin < rect.yMax && rect.yMin < other.yMax;
+		=> new((Vector2)bounds.min, (Vector2)bounds.size);
 
 	public static RectInt Inflate(this RectInt rect, int amount)
 		=> rect.Inflate(amount, amount);
@@ -115,17 +110,26 @@ public static class Extensions
 		Gizmos.DrawLineStrip(vectors, true);
 	}
 
-	const float DefaultPPU = 16f;
+	private const float DefaultPPU = 16f;
 
-	public static Vector3 PixelPerfectClamp(this Vector3 locationVector, float pixelsPerUnit = DefaultPPU)
+	public static Vector3 PixelPerfectCeil(this Vector3 locationVector, float pixelsPerUnit = DefaultPPU)
 	{
 		Vector3 vectorInPixels = new(Mathf.CeilToInt(locationVector.x * pixelsPerUnit), Mathf.CeilToInt(locationVector.y * pixelsPerUnit), Mathf.CeilToInt(locationVector.z * pixelsPerUnit));
 		return vectorInPixels / pixelsPerUnit;
 	}
 
-	public static Vector2 PixelPerfectClamp(this Vector2 locationVector, float pixelsPerUnit = DefaultPPU)
+	public static Vector2 PixelPerfectRound(this Vector2 locationVector, float pixelsPerUnit = DefaultPPU)
+	{
+		Vector2 vectorInPixels = new(Mathf.RoundToInt(locationVector.x * pixelsPerUnit), Mathf.RoundToInt(locationVector.y * pixelsPerUnit));
+		return vectorInPixels / pixelsPerUnit;
+	}
+
+	public static Vector2 PixelPerfectCeil(this Vector2 locationVector, float pixelsPerUnit = DefaultPPU)
 	{
 		Vector2 vectorInPixels = new(Mathf.CeilToInt(locationVector.x * pixelsPerUnit), Mathf.CeilToInt(locationVector.y * pixelsPerUnit));
 		return vectorInPixels / pixelsPerUnit;
 	}
+
+	public static bool Contains(this Rect outside, Rect inside)
+		=> outside.yMax >= inside.yMax && outside.yMin <= inside.yMin && outside.xMax >= inside.xMax && outside.xMin <= inside.xMin;
 }

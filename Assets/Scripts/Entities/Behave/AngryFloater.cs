@@ -9,6 +9,18 @@ public class AngryFloater : EnemyBehave
 	public float MoveSpeed = 1f;
 	private const float DeadGravity = 1f;
 
+	public float BobSpeed = 1f;
+	public float BobSpeedVariance = 1f;
+	private float trueBobSpeed;
+	public float BobMagnitude = 0.5f;
+
+	protected override void InternalStart()
+	{
+		base.InternalStart();
+
+		trueBobSpeed = BobSpeed + Random.Range(-BobSpeedVariance, BobSpeedVariance);
+	}
+
 	protected override void InternalUpdate()
 	{
 		base.InternalUpdate();
@@ -19,15 +31,8 @@ public class AngryFloater : EnemyBehave
 		}
 		else
 		{
-			if (TargetVector.magnitude < MoveSpeed / 10)
-			{
-				RigidBody.velocity = Vector3.zero;
-				RigidBody.transform.position = TargetPos;
-			}
-			else
-			{
-				RigidBody.velocity = TargetVector.normalized * MoveSpeed;
-			}
+			RigidBody.velocity = HasTarget ? TargetVector.normalized * MoveSpeed : Vector2.zero;
+			RigidBody.velocity += BobMagnitude * Mathf.Sin(Time.time * trueBobSpeed) * Vector2.up;
 		}
 	}
 

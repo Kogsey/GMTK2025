@@ -24,7 +24,7 @@ public class ParallaxBGManager : MonoBehaviour
 
 			Vector3 newPosition = new(startingPosition.x + distance, startingPosition.y + yOffset, 0);
 
-			transform.position = newPosition.PixelPerfectClamp(PPU);
+			transform.position = newPosition.PixelPerfectCeil(PPU);
 
 			if (temp > startingPosition.x + (length / 2))
 				startingPosition.x += length;
