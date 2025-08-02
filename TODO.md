@@ -1,0 +1,27 @@
+# GMTK 2025 TODO list
+
+- [ ] Names???
+- [ ] Boss AI / Boss Room
+  - [ ] Projectiles
+  - [ ] AOE?
+- [X] Bat AI
+- [ ] Platforms
+- [X] Lighting
+  - [X] Add Lights to enemies
+- [ ] Random Drops
+  - [ ] Increased Damage
+  - [ ] Increased Health
+  - [ ] Longer Dodge
+  - [ ] Health Regen
+  - [ ] Faster Attack
+- [ ] Platforms
+- [ ] Fix last halways malform
+- [ ] UI
+  - [ ] Text stuff
+    - [ ] Tutorial Friend
+  - [ ] Drop Choose UI
+  - [X] Health
+  - [X] Boss Health
+  - [X] Enemy Health
+- [X] Dynamic Room Brightness
+- [X] Fix Flipping Healthbar
