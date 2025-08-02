@@ -6,7 +6,7 @@ using UnityEngine;
 using Utilities.Movement;
 using Utilities.Timing;
 
-[RequireComponent(typeof(GroundCheck), typeof(EntityHealth))]
+[RequireComponent(typeof(GroundCheck))]
 [Singleton]
 public class PlayerController : EntityBehave, ISingleton
 {
@@ -91,11 +91,12 @@ public class PlayerController : EntityBehave, ISingleton
 	{
 		base.InternalStart();
 		healthData = GetComponent<EntityHealth>();
-		animationHelper = new(SpriteRenderer);
 		groundCheck = GetComponent<GroundCheck>();
-		RigidBody.gravityScale = GravityScale;
-
 		sword = GetComponentInChildren<SwordController>();
+
+		RigidBody.gravityScale = GravityScale;
+		animationHelper = new(SpriteRenderer);
+
 		animationHelper.ForceToLoop(IdleFrames);
 	}
 
@@ -274,7 +275,8 @@ public class PlayerController : EntityBehave, ISingleton
 			}
 		}
 
-		healthData.OtherImmune = IsDodgeImmune;
+		if (healthData != null)
+			healthData.OtherImmune = IsDodgeImmune;
 	}
 
 	#region FinalUpdate
