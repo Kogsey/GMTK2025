@@ -81,9 +81,6 @@ public class PlayerController : EntityBehave, ISingleton
 	private float FallSpeedCap => 10 * FloatSpeedCap;
 	private float AirSpeedCap => 1.5f * GroundSpeedCap;
 
-	/// <summary> -1 for left, 1 for right </summary>
-	private int FaceDirection { get => (int)transform.localScale.x; set => transform.localScale = new Vector3(value, 1, 1); }
-
 	public int DodgesLeft;
 	public int maxDodges = 1;
 

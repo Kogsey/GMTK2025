@@ -6,10 +6,20 @@ public class HealthBar : MonoBehaviour
 	private const float RefScale = 1f;
 	private const float BorderPadding = 0.1f;
 	private float maxWidth;
+	public float scale;
 	public SpriteRenderer Border;
 	public SpriteRenderer Bar;
 	public SpriteRenderer Block;
 	public SpriteRenderer Absorption;
+
+	private void Update()
+	{
+		if (transform.parent != null)
+		{
+			int scaleDir = transform.parent.localScale.x < 0 ? -1 : 1;
+			transform.localScale = new Vector3(scale * scaleDir, scale, 1);
+		}
+	}
 
 	public void Setup(int maxHealth)
 	{

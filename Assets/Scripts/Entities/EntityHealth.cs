@@ -102,6 +102,7 @@ public sealed class EntityHealth : MonoBehaviour
 		if (health <= 0)
 			entity.OnDeath();
 
+		entity.OnHit(hitInfo);
 		ImmunityTimer.Reset();
 		return DamageInfo.GetHit(finalDamage, finalDamage);
 	}

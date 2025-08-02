@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb8878e70a36b8438f2fce44acef779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: 0.2
   Border: {fileID: 4338457992519953027}
   Bar: {fileID: 5445506519436681347}
   Block: {fileID: 6097201227476732488}

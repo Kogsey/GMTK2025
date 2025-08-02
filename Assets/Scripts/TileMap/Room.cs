@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
 
 public class Room
@@ -13,6 +14,10 @@ public class Room
 	}
 
 	public RoomType Type { get; set; }
+
+	/// <summary> Between 0 and 1 </summary>
+	public float LightIntensity { get; set; }
+
 	public int RoomTilesWidth { get; set; }
 	public int RoomTilesHeight { get; set; }
 	public int RoomTilesX { get; set; }
@@ -29,6 +34,9 @@ public class Room
 			RoomTilesHeight = value.height;
 		}
 	}
+
+	public Rect GetWorldBounds(Tilemap tileMap)
+		=> tileMap.CellToWorld(RoomTilesBounds);
 
 	/// <summary> Distance from the floor the connection is. Inclusive to rooms </summary>
 	public int ConnectionGroundOffset { get; set; }

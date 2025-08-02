@@ -24,7 +24,7 @@ public class ItemDropCategory
 
 	public ItemDrop RollNew(int level)
 	{
-		float currentMean = Mean + level * MeanPerLevel;
+		float currentMean = Mean + (level * MeanPerLevel);
 		float roll = Extensions.RandomGaussianStdDev(currentMean, Sigma);
 		return new()
 		{

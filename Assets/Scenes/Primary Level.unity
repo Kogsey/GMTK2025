@@ -181,6 +181,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dd5b069ff281e143b23c93121ada360, type: 3}
+--- !u!114 &244442493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6731585167768567839, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
+  m_PrefabInstance: {fileID: 3411908222726922853}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1170780010
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,15 +267,32 @@ MonoBehaviour:
       Min: 3
       Max: 4
     PrimarySpawnWeight: 0.1
-    SupportSpawnWeight: 1
+    SupportSpawnWeight: 2
     ExtraWeightPerLevelPrimary: 0
     ExtraWeightPerLevelSupport: 0
     ExtraSpawnsPerLevelPrimary: 0.1
     ExtraSpawnsPerLevelSupport: 0.2
     Flags: 1
     Prefab: {fileID: -1332456097321053111, guid: b088eed00728f3f4bb0de30ef53f7d22, type: 3}
+  - PrimarySpawnCount:
+      Min: 1
+      Max: 2
+    AsSupportCount:
+      Min: 1
+      Max: 1
+    PrimarySpawnWeight: 0.1
+    SupportSpawnWeight: 0
+    ExtraWeightPerLevelPrimary: 0.3
+    ExtraWeightPerLevelSupport: 0.3
+    ExtraSpawnsPerLevelPrimary: 0.1
+    ExtraSpawnsPerLevelSupport: 0.2
+    Flags: 1
+    Prefab: {fileID: 2392712473423557238, guid: 666c43ef2016a8944939495cbefeaeb7, type: 3}
   SupportEnemiesChance: 0.25
   HangingLampPrefab: {fileID: 4687209222836227732, guid: c82d826e8d607f344bb08e0ffee98504, type: 3}
+  MinGlobalLighting: 0
+  MaxGlobalLighting: 0.1
+  GlobalLight: {fileID: 244442493}
   MinLampsPerTile: 0.1
   MaxLampsPerTile: 0.2
   MinLampsPerTileBoss: 0.2

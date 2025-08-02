@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static TileMapHelpers;
 using Random = UnityEngine.Random;
@@ -23,6 +24,43 @@ public class TileMapGenerator : MonoBehaviour
 	private void Start()
 		=> GenerateTileMap(1);
 
+	public float MinGlobalLighting;
+	public float MaxGlobalLighting;
+	public Light2D GlobalLight;
+
+	private void Update()
+	{
+		float lastRoomXMax = float.MinValue;
+		float lastRoomLights = 1f;
+		Vector2 pBoundsPos = Player.BoundsCheckingRect.center;
+
+		for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
+		{
+			Room room = RoomsArray[roomI];
+			Rect lightingAreaBounds = Foreground.CellToWorld(room.RoomTilesBounds.Inflate(-2));
+			float lightIntensity = room.LightIntensity;
+
+			if (pBoundsPos.x > lightingAreaBounds.xMax)
+			{
+				lastRoomXMax = lightingAreaBounds.xMax;
+				lastRoomLights = lightIntensity;
+				continue;
+			}
+
+			if (pBoundsPos.x < lightingAreaBounds.xMin)
+			{
+				float lerpVal = GetPlayerRoomTransition(lastRoomXMax, lightingAreaBounds.xMin, pBoundsPos.x);
+				lightIntensity = Mathf.Lerp(lastRoomLights, lightIntensity, lerpVal);
+			}
+
+			GlobalLight.intensity = Mathf.Lerp(MinGlobalLighting, MaxGlobalLighting, lightIntensity);
+			break;
+		}
+	}
+
+	private float GetPlayerRoomTransition(float leftXMax, float rightXMin, float playerXPos)
+		=> Mathf.InverseLerp(leftXMax, rightXMin, playerXPos);
+
 	private void OnDrawGizmosSelected()
 	{
 		//Draw the ground colliders on screen for debug purposes
@@ -33,7 +71,7 @@ public class TileMapGenerator : MonoBehaviour
 		{
 			foreach (Room room in RoomsArray)
 			{
-				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.RoomTilesBounds));
+				Extensions.GizmosDrawRect(room.GetWorldBounds(Foreground));
 				Extensions.GizmosDrawRect(Foreground.CellToWorld(room.ConnectionBounds));
 			}
 		}
@@ -75,7 +113,11 @@ public class TileMapGenerator : MonoBehaviour
 				ConnectionGroundOffset = TileMapRandom.NextConnectionGroundOffset(),
 				ConnectionHallHeight = TileMapRandom.NextConnectionHeight(),
 				ConnectionLength = TileMapRandom.NextConnectionLength(),
+				LightIntensity = Random.Range(0f, 1f),
 			};
+
+			if (room.Type == Room.RoomType.Boss)
+				room.LightIntensity = 0;
 
 			RoomsArray[roomI] = room;
 
@@ -196,7 +238,7 @@ public class TileMapGenerator : MonoBehaviour
 			EnemyBehave enemyBehave = Instantiate(spawnInfo.Prefab);
 			if (spawnInfo.Flags.HasFlag(SpawnFlags.Floater))
 			{
-				enemyBehave.RoomArea = Foreground.CellToWorld(room.RoomTilesBounds);
+				enemyBehave.RoomArea = room.GetWorldBounds(Foreground);
 				enemyBehave.transform.position = Extensions.RandomIn(enemyBehave.RoomArea);
 			}
 			else

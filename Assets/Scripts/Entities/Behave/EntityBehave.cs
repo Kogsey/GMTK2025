@@ -8,6 +8,9 @@ public abstract class EntityBehave : MonoBehaviour
 	protected SpriteRenderer SpriteRenderer;
 	private Color _colour = Color.white;
 
+	/// <summary> -1 for left, 1 for right </summary>
+	protected int FaceDirection { get => (int)transform.localScale.x; set => transform.localScale = new Vector3(value, 1, 1); }
+
 	public Color BaseColour
 	{
 		get => _colour;
@@ -30,7 +33,7 @@ public abstract class EntityBehave : MonoBehaviour
 	protected virtual void InternalUpdate()
 	{ }
 
-	public virtual void OnHit(EntityBehave hurtingMe)
+	public virtual void OnHit(HitInfo hit)
 	{
 	}
 

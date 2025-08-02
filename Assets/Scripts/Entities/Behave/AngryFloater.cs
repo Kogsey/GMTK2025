@@ -36,11 +36,11 @@ public class AngryFloater : EnemyBehave
 		}
 	}
 
-	private readonly float SpinCount = 10f;
+	private readonly float SpinCount = 2f;
 	private readonly float SpinSpeedRadians = Mathf.PI * 5;
 	private float Spin;
 
-	public override void OnHit(EntityBehave hurtingMe)
+	public override void OnHit(HitInfo hit)
 		=> StartCoroutine(SpinOutAnimation());
 
 	private IEnumerator SpinOutAnimation()
@@ -63,6 +63,7 @@ public class AngryFloater : EnemyBehave
 	{
 		base.OnDeath();
 		RigidBody.gravityScale = DeadGravity;
+		gameObject.layer = 3;
 		if (TryGetComponent(out Collider2D collision))
 			collision.isTrigger = false;
 	}
