@@ -86,7 +86,7 @@ public class StateManager : MonoBehaviour
 	}
 
 	public void SpawnQuitGamePlayPopUp() // TODO: low priority: end game pop-up
-=> SceneManager.LoadScene(MainMenuScreen);
+		=> SceneManager.LoadScene(MainMenuScreen);
 
 	public static void GameOver()
 		=> SceneManager.LoadScene(LoseScreen);
