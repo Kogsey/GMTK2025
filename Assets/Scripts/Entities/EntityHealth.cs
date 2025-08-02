@@ -16,7 +16,10 @@ public sealed class EntityHealth : MonoBehaviour
 	public int MaxHealth;
 
 	public CountDownTimer ImmunityTimer = new() { MaxTime = 0.4f };
-	public bool Immune => !ImmunityTimer.Check();
+	public bool OtherImmune { get; set; }
+	public bool InImmunityFrames => !ImmunityTimer.Check();
+
+	public bool AnyImmune => OtherImmune || InImmunityFrames;
 
 	public int FlatDefence;
 	public float DamageReduction;
@@ -45,12 +48,24 @@ public sealed class EntityHealth : MonoBehaviour
 
 	private int ImmunityFlasher;
 
+	private Color FlashColour
+		=> InImmunityFrames ? Color.red : Color.white;
+
 	private void UpdateImmunity()
 	{
 		ImmunityTimer.Tick();
 		ImmunityFlasher++;
 
-		SpriteRenderer.color = Immune ? new Color(1, 0, 0, ImmunityFlasher % 2 == 0 ? 0.5f : 1f) : entity.BaseColour;
+		if (AnyImmune)
+		{
+			Color currentColour = FlashColour;
+			currentColour.a = ImmunityFlasher % 2 == 0 ? 0.5f : 1f;
+			SpriteRenderer.color = currentColour;
+		}
+		else
+		{
+			SpriteRenderer.color = entity.BaseColour;
+		}
 	}
 
 	/// <summary> Returns true on successful hit </summary>
@@ -60,7 +75,7 @@ public sealed class EntityHealth : MonoBehaviour
 		if ((hitInfo.HitType & entity.EntityType) == 0)
 			return DamageInfo.GetSimpleResult(DamageResult.Ignored);
 
-		if (Immune) // If immune
+		if (AnyImmune) // If immune
 			return DamageInfo.GetSimpleResult(DamageResult.Immune);
 		if (Random.Range(0f, 100f) <= dodgeChange) // If dodged
 			return DamageInfo.GetSimpleResult(DamageResult.Miss);
