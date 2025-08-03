@@ -6,7 +6,7 @@ public class TimedTextBoxManager : MonoBehaviour
 	public GameObject TextPanel;
 	public TMPro.TextMeshProUGUI MessageText;
 
-	public float displayDuration = 10f; // Time in seconds before text disappears
+	public float displayDuration = 6f; // Time in seconds before text disappears
 
 	public static List<string> MessageOptionsList = new()
 	{
