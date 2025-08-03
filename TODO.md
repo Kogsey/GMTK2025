@@ -8,8 +8,9 @@
     - [X] Weapon
   - [X] Bat AI
   - [ ] Platforms
-  - [ ] Better level transitions
-  - [ ] Balance
+  - [X] Better level transitions
+    - [ ] Even Better
+  - [X] Balance
   - [X] Incremental enemy difficulty
   - [X] Random Skull Colours
 - [X] Lighting
