@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: db143360339905444b94b57cc4ac5af6
+guid: 87f239604c9efb242a6c8faf9ed5631c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,8 +122,8 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1487197478
-    name: Boss1
+    guid: 1794101963
+    name: BossWeapon
     layerFlags: 0
     layerType: 0
     blendMode: 0
