@@ -15,7 +15,7 @@
   - [ ] Health Regen
   - [ ] Faster Attack
 - [ ] Platforms
-- [ ] Fix last halways malform
+- [X] Fix last halways malform
 - [ ] UI
   - [ ] Text stuff
     - [ ] Tutorial Friend

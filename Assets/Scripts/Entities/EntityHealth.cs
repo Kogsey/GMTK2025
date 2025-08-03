@@ -13,7 +13,7 @@ public sealed class EntityHealth : MonoBehaviour
 	public Collider2D[] DamageMeColliders;
 
 	public bool CheatHealth;
-	private int health;
+	public int health;
 	public int MaxHealth;
 
 	public CountDownTimer ImmunityTimer = new() { MaxTime = 0.4f };
@@ -41,7 +41,10 @@ public sealed class EntityHealth : MonoBehaviour
 
 		HealthBar.Setup(MaxHealth);
 
-		health = MaxHealth;
+		if (!resetSupressed)
+			health = MaxHealth;
+
+		HealthBar.UpdateBar(health);
 	}
 
 	private void Update()
@@ -50,6 +53,12 @@ public sealed class EntityHealth : MonoBehaviour
 			health = MaxHealth;
 		UpdateImmunity();
 	}
+
+	private bool resetSupressed;
+
+	/// <summary> Stops health being set to maxHealth on start </summary>
+	public void SupressReset()
+		=> resetSupressed = true;
 
 	private int ImmunityFlasher;
 

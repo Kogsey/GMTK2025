@@ -1,6 +1,7 @@
 // Ignore Spelling: Mult HitPoints Collider
 
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.Movement;
@@ -83,6 +84,8 @@ public class PlayerController : EntityBehave, ISingleton
 	public int DodgesLeft;
 	public int maxDodges = 1;
 
+	public List<ItemDrop> Items = new();
+
 	#region Movement
 
 	// Start is called before the first frame update
@@ -109,10 +112,6 @@ public class PlayerController : EntityBehave, ISingleton
 
 		FinalPhysicsUpdate();
 		ChooseFrame();
-	}
-
-	public void UpdateData(PlayerData playerData)
-	{
 	}
 
 	void Update()
@@ -415,4 +414,21 @@ public class PlayerController : EntityBehave, ISingleton
 
 	//public bool IsUpFacing(Collision2D collision)
 	//	=> collision.contactCount > 0 && Vector2.Dot(collision.GetContact(0).normal, Vector2.up) > 0.5;
+
+	public PlayerData ReadData()
+		=> new()
+		{
+			PlayerHealth = healthData.health,
+			Items = Items
+		};
+
+	public void UpdateData(PlayerData playerData)
+	{
+		if (playerData != null)
+		{
+			healthData.health = playerData.PlayerHealth;
+			healthData.SupressReset();
+			Items = playerData.Items;
+		}
+	}
 }

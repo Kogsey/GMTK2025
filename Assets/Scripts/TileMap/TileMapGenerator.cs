@@ -27,31 +27,34 @@ public class TileMapGenerator : MonoBehaviour
 
 	private void Update()
 	{
-		float lastRoomXMax = float.MinValue;
-		float lastRoomLights = 1f;
-		Vector2 pBoundsPos = Player.BoundsCheckingRect.center;
-
-		for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
+		if (Generated)
 		{
-			Room room = RoomsArray[roomI];
-			Rect lightingAreaBounds = Foreground.CellToWorld(room.RoomTilesBounds.Inflate(-2));
-			float lightIntensity = room.LightIntensity;
+			float lastRoomXMax = float.MinValue;
+			float lastRoomLights = 1f;
+			Vector2 pBoundsPos = Player.BoundsCheckingRect.center;
 
-			if (pBoundsPos.x > lightingAreaBounds.xMax)
+			for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
 			{
-				lastRoomXMax = lightingAreaBounds.xMax;
-				lastRoomLights = lightIntensity;
-				continue;
-			}
+				Room room = RoomsArray[roomI];
+				Rect lightingAreaBounds = Foreground.CellToWorld(room.RoomTilesBounds.Inflate(-2));
+				float lightIntensity = room.LightIntensity;
 
-			if (pBoundsPos.x < lightingAreaBounds.xMin)
-			{
-				float lerpVal = GetPlayerRoomTransition(lastRoomXMax, lightingAreaBounds.xMin, pBoundsPos.x);
-				lightIntensity = Mathf.Lerp(lastRoomLights, lightIntensity, lerpVal);
-			}
+				if (pBoundsPos.x > lightingAreaBounds.xMax)
+				{
+					lastRoomXMax = lightingAreaBounds.xMax;
+					lastRoomLights = lightIntensity;
+					continue;
+				}
 
-			GlobalLight.intensity = Mathf.Lerp(MinGlobalLighting, MaxGlobalLighting, lightIntensity);
-			break;
+				if (pBoundsPos.x < lightingAreaBounds.xMin)
+				{
+					float lerpVal = GetPlayerRoomTransition(lastRoomXMax, lightingAreaBounds.xMin, pBoundsPos.x);
+					lightIntensity = Mathf.Lerp(lastRoomLights, lightIntensity, lerpVal);
+				}
+
+				GlobalLight.intensity = Mathf.Lerp(MinGlobalLighting, MaxGlobalLighting, lightIntensity);
+				break;
+			}
 		}
 	}
 
@@ -82,6 +85,7 @@ public class TileMapGenerator : MonoBehaviour
 		RoomsArray = null;
 		Foreground.ClearAllTiles();
 		Background.ClearAllTiles();
+		Generated = false;
 	}
 
 	private bool Generated = false;
@@ -126,6 +130,8 @@ public class TileMapGenerator : MonoBehaviour
 			nextRoomGround.x = room.ConnectionBounds.xMax;
 			nextRoomGround.y = room.ConnectionBounds.yMin - TileMapRandom.NextConnectionGroundOffset();
 		}
+
+		TileMapValidation.ValidateRooms(RoomsArray[^1], null);
 
 		for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
 		{

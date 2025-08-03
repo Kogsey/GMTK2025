@@ -1,15 +1,20 @@
+using System;
+using UnityEngine;
+
 public enum ItemDropType
 {
-	IncreasedDamage,
 	IncreasedHealth,
-	LongerDodge,
+	FasterAttack,
+	IncreasedDamage,
 	HealthRegen,
-	FasterAttack
+	LongerDodge,
 }
 
+[Serializable]
 public class ItemDropCategory
 {
 	public ItemDropType Type;
+	public Sprite[] Sprites;
 
 	public float Mean;
 
