@@ -19,7 +19,7 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 			PlayerController controller = FindAnyObjectByType<PlayerController>();
 			if (controller != null)
 			{
-				controller.UpdateData(PlayerData);
+				controller.WriteData(PlayerData);
 				PlayerData = null;
 			}
 		}
@@ -38,5 +38,17 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 		Level = 1;
 		DeathCounter++;
 		SceneManager.LoadScene(StateManager.LoseScreen);
+	}
+
+	private void OnEnable()
+	{
+		if (IsRealInstance)
+			SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDisable()
+	{
+		if (IsRealInstance)
+			SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
 }

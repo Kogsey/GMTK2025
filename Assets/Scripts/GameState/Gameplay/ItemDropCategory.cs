@@ -39,8 +39,17 @@ public class ItemDropCategory
 	}
 }
 
-public class ItemDrop
+public interface IPlayerStatEffector
+{
+	public void Set(PlayerController playerController);
+}
+
+public class ItemDrop : IPlayerStatEffector
 {
 	public ItemDropType Category;
 	public float Value;
+
+	public void Set(PlayerController playerController)
+	{
+	}
 }

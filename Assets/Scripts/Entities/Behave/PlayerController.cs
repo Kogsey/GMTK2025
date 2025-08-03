@@ -10,14 +10,6 @@ using Utilities.Timing;
 [RequireComponent(typeof(GroundCheck))]
 public class PlayerController : EntityBehave, ISingleton
 {
-	private EntityHealth healthData;
-	private GroundCheck groundCheck;
-	private SwordController sword;
-
-	private PhysicsVelocity2D Velocity;
-
-	private float DodgeStateTimer;
-
 	[Header("Movement")]
 	public float PreJumpTimerMax = 0.4f;
 
@@ -50,6 +42,9 @@ public class PlayerController : EntityBehave, ISingleton
 	public float DodgeNoImmuneTime;
 	private bool IsDodgeImmune => InDodgeRails && DodgeStateTimer <= (DodgeTime - DodgeNoImmuneTime);
 
+	public int DodgesLeft;
+	public int maxDodges = 1;
+
 	[Header("Environment")]
 	public float GravityScale;
 
@@ -81,23 +76,40 @@ public class PlayerController : EntityBehave, ISingleton
 	private float FallSpeedCap => 10 * FloatSpeedCap;
 	private float AirSpeedCap => 1.5f * GroundSpeedCap;
 
-	public int DodgesLeft;
-	public int maxDodges = 1;
+	private EntityHealth healthData;
+	private GroundCheck groundCheck;
+	private SwordController sword;
+	private PhysicsVelocity2D Velocity;
+	private float DodgeStateTimer;
 
 	public List<ItemDrop> Items = new();
 
+	public void ResetStats()
+	{
+	}
+
+	public void RegenerateStats()
+	{
+	}
+
 	#region Movement
+
+	protected override void InternalAwake()
+	{
+		base.InternalAwake();
+
+		healthData = GetComponent<EntityHealth>();
+		groundCheck = GetComponent<GroundCheck>();
+		sword = GetComponentInChildren<SwordController>();
+		animationHelper = new(SpriteRenderer);
+	}
 
 	// Start is called before the first frame update
 	protected override void InternalStart()
 	{
 		base.InternalStart();
-		healthData = GetComponent<EntityHealth>();
-		groundCheck = GetComponent<GroundCheck>();
-		sword = GetComponentInChildren<SwordController>();
 
 		RigidBody.gravityScale = GravityScale;
-		animationHelper = new(SpriteRenderer);
 
 		animationHelper.ForceToLoop(IdleFrames);
 	}
@@ -287,7 +299,9 @@ public class PlayerController : EntityBehave, ISingleton
 			healthData.OtherImmune = IsDodgeImmune;
 	}
 
-	#region FinalUpdate
+	#endregion Movement
+
+	#region Physics
 
 	public void FinalPhysicsUpdate()
 	{
@@ -332,9 +346,7 @@ public class PlayerController : EntityBehave, ISingleton
 			Velocity.x = speed;
 	}
 
-	#endregion FinalUpdate
-
-	#endregion Movement
+	#endregion Physics
 
 	#region Sprites
 
@@ -388,6 +400,10 @@ public class PlayerController : EntityBehave, ISingleton
 				}*/
 	}
 
+	#endregion Sprites
+
+	#region Death
+
 	private bool Dead;
 	private float DeathTime = 5f;
 
@@ -398,10 +414,13 @@ public class PlayerController : EntityBehave, ISingleton
 		animationHelper.FreezeChanges = true;
 		if (!Dead)
 			sword.DeathClatter();
+		RigidBody.gravityScale = GravityScale;
 		Dead = true;
 	}
 
-	#endregion Sprites
+	#endregion Death
+
+	#region Editor
 
 	private void OnDrawGizmosSelected()
 	{
@@ -410,10 +429,11 @@ public class PlayerController : EntityBehave, ISingleton
 		Extensions.GizmosDrawRect(BoundsCheckingRect);
 	}
 
+	#endregion Editor
+
 	public Rect BoundsCheckingRect => SpriteRenderer.bounds.ZFlattened();
 
-	//public bool IsUpFacing(Collision2D collision)
-	//	=> collision.contactCount > 0 && Vector2.Dot(collision.GetContact(0).normal, Vector2.up) > 0.5;
+	#region Persistance
 
 	public PlayerData ReadData()
 		=> new()
@@ -422,7 +442,7 @@ public class PlayerController : EntityBehave, ISingleton
 			Items = Items
 		};
 
-	public void UpdateData(PlayerData playerData)
+	public void WriteData(PlayerData playerData)
 	{
 		if (playerData != null)
 		{
@@ -431,4 +451,6 @@ public class PlayerController : EntityBehave, ISingleton
 			Items = playerData.Items;
 		}
 	}
+
+	#endregion Persistance
 }
