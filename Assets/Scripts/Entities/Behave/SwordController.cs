@@ -23,6 +23,8 @@ public class SwordController : MonoBehaviour
 	public HitInfo BigHitInfo;
 	public HitInfo SmallHitInfo;
 
+	public float SwingSpeedMultiplier = 1f;
+	public float DamageMultiplier = 1f;
 	public FrameData[] Idle;
 	public int BigSwingHitboxFrame;
 	public FrameData[] Swing;
@@ -69,8 +71,9 @@ public class SwordController : MonoBehaviour
 	{
 		isSwung = isPrimary = true;
 		animationHelper.CheckedSwapToSequence(Swing);
+		animationHelper.AnimationSpeed = SwingSpeedMultiplier;
 		animationHelper.LoopAnimation = false;
-		aggressor.HitInfo = SmallHitInfo;
+		aggressor.HitInfo = SmallHitInfo.WithMultiplier(DamageMultiplier);
 	}
 
 	private void SecondaryAttack()
@@ -78,8 +81,9 @@ public class SwordController : MonoBehaviour
 		isSwung = true;
 		isPrimary = false;
 		animationHelper.CheckedSwapToSequence(BigSwing);
+		animationHelper.AnimationSpeed = SwingSpeedMultiplier;
 		animationHelper.LoopAnimation = false;
-		aggressor.HitInfo = BigHitInfo;
+		aggressor.HitInfo = BigHitInfo.WithMultiplier(DamageMultiplier);
 	}
 
 	private void ResetAttackVariables()
@@ -88,6 +92,7 @@ public class SwordController : MonoBehaviour
 		SmallSwingCollider.enabled = false;
 		BigSwingCollider.enabled = false;
 		animationHelper.CheckedSwapToSequence(Idle);
+		animationHelper.AnimationSpeed = 1f;
 		animationHelper.LoopAnimation = true;
 		aggressor.HitInfo = HitInfo.GetImpotent();
 	}

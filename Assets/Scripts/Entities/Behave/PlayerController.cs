@@ -34,7 +34,7 @@ public class PlayerController : EntityBehave, ISingleton
 	public float HighJumpTimeMult;
 
 	[Space]
-	public float DodgeTime = 0.5f;
+	public float BaseDodgeTime = 0.2f;
 
 	public float DodgeSpeedOverride;
 
@@ -82,17 +82,55 @@ public class PlayerController : EntityBehave, ISingleton
 	private PhysicsVelocity2D Velocity;
 	private float DodgeStateTimer;
 
-	public List<ItemDrop> Items = new();
+	public List<IPlayerStatEffector> StatBoosts = new();
 
-	public void ResetStats()
+	public int MaxHealth { get; set; }
+
+	/// <summary> Multiplicative </summary>
+	public float AttackSpeed { get; set; }
+
+	/// <summary> Multiplicative </summary>
+	public float DamageMultiplier { get; set; }
+
+	/// <summary> Additive </summary>
+	public void AddHealthRegen(int amount, bool deferClamp = false)
 	{
+		healthData.Health += amount;
+
+		if (!deferClamp)
+			healthData.ClampHealth();
+	}
+
+	public float DodgeTime { get; set; }
+	public void AddStatEffector(IPlayerStatEffector effector)
+	{
+		effector.ApplyInstantEffect(this);
+		StatBoosts.Add(effector);
+		RegenerateStats();
 	}
 
 	public void RegenerateStats()
 	{
+		DodgeTime = BaseDodgeTime;
+		MaxHealth = 10;
+		AttackSpeed = 1;
+		DamageMultiplier = 1;
+
+		foreach (IPlayerStatEffector item in StatBoosts)
+			item.ApplyConstantEffect(this);
+
+		ApplyStats();
 	}
 
-	#region Movement
+	public void ApplyStats()
+	{
+		if (healthData != null)
+			healthData.SetMaxHealth(MaxHealth);
+		sword.SwingSpeedMultiplier = AttackSpeed;
+		sword.DamageMultiplier = DamageMultiplier;
+
+		healthData.ClampHealth();
+	}
 
 	protected override void InternalAwake()
 	{
@@ -110,9 +148,11 @@ public class PlayerController : EntityBehave, ISingleton
 		base.InternalStart();
 
 		RigidBody.gravityScale = GravityScale;
-
 		animationHelper.ForceToLoop(IdleFrames);
+		RegenerateStats();
 	}
+
+	#region Movement
 
 	// Update is called once per frame
 	private void FixedUpdate()
@@ -126,7 +166,7 @@ public class PlayerController : EntityBehave, ISingleton
 		ChooseFrame();
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (!Dead)
 		{
@@ -431,24 +471,22 @@ public class PlayerController : EntityBehave, ISingleton
 
 	#endregion Editor
 
-	public Rect BoundsCheckingRect => SpriteRenderer.bounds.ZFlattened();
-
 	#region Persistance
 
 	public PlayerData ReadData()
 		=> new()
 		{
-			PlayerHealth = healthData.health,
-			Items = Items
+			PlayerHealth = healthData._health,
+			StatBoosts = StatBoosts
 		};
 
 	public void WriteData(PlayerData playerData)
 	{
 		if (playerData != null)
 		{
-			healthData.health = playerData.PlayerHealth;
+			healthData._health = playerData.PlayerHealth;
 			healthData.SupressReset();
-			Items = playerData.Items;
+			StatBoosts = playerData.StatBoosts;
 		}
 	}
 

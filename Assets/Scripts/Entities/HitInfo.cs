@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary> What this hit can hit </summary>
 [Flags]
@@ -29,6 +30,9 @@ public struct HitInfo
 
 	public static HitInfo GetImpotent()
 		=> new(HitType.Impotent, 0, 0);
+
+	public readonly HitInfo WithMultiplier(float multiply)
+		=> new(HitType, Mathf.CeilToInt(RawDamage * multiply), Pierce);
 }
 
 public enum DamageResult
