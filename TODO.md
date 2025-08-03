@@ -9,12 +9,12 @@
 - [X] Lighting
   - [X] Add Lights to enemies
   - [X] Dynamic Room Brightness
-- [ ] Random Drops
-  - [ ] Increased Damage
-  - [ ] Increased Health
-  - [ ] Longer Dodge
-  - [ ] Health Regen
-  - [ ] Faster Attack
+- [X] Random Drops
+  - [X] Increased Damage
+  - [X] Increased Health
+  - [X] Longer Dodge
+  - [X] Health Regen
+  - [X] Faster Attack
 - [ ] UI
   - [ ] Text stuff
     - [ ] Tutorial Friend
@@ -22,7 +22,7 @@
   - [X] Health
   - [X] Boss Health
   - [X] Enemy Health
-- [ ] Bugs
+- Bugs
   - [X] Fix last halways malform
   - [X] Fix death gravity
   - [X] Fix Flipping Healthbar
