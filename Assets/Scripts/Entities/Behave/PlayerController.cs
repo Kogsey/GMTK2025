@@ -102,6 +102,7 @@ public class PlayerController : EntityBehave, ISingleton
 	}
 
 	public float DodgeTime { get; set; }
+
 	public void AddStatEffector(IPlayerStatEffector effector)
 	{
 		effector.ApplyInstantEffect(this);
@@ -128,8 +129,8 @@ public class PlayerController : EntityBehave, ISingleton
 			healthData.SetMaxHealth(MaxHealth);
 		sword.SwingSpeedMultiplier = AttackSpeed;
 		sword.DamageMultiplier = DamageMultiplier;
-
-		healthData.ClampHealth();
+		if (healthData != null)
+			healthData.ClampHealth();
 	}
 
 	protected override void InternalAwake()
@@ -445,7 +446,7 @@ public class PlayerController : EntityBehave, ISingleton
 	#region Death
 
 	private bool Dead;
-	private float DeathTime = 5f;
+	private float DeathTime = 3f;
 
 	public override void OnDeath()
 	{

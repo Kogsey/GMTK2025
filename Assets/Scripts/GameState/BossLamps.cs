@@ -19,9 +19,7 @@ public class BossLamps : MonoBehaviour
 	public float MaxLightHeight;
 
 	private void Start()
-	{
-		GenerateLights();
-	}
+		=> GenerateLights();
 
 	private void ClearLights()
 	{

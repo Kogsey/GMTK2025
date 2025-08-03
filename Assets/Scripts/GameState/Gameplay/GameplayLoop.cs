@@ -8,7 +8,7 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if (IsRealInstance)
+		if (IsRealInstance && scene.name == StateManager.GameScreen || scene.name == StateManager.BossScreen)
 		{
 			TileMapGenerator tileMapGenerator = FindAnyObjectByType<TileMapGenerator>();
 			if (tileMapGenerator != null)
@@ -39,6 +39,10 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 
 	public void OnBossBeaten()
 	{
+		PlayerController controller = FindAnyObjectByType<PlayerController>();
+		PlayerData = controller.ReadData();
+		Level = 0;
+		SceneManager.LoadScene(StateManager.WinScreen);
 	}
 
 	public void OnDeath()

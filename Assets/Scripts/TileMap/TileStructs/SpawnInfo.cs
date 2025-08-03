@@ -35,5 +35,8 @@ public class SpawnInfo
 	public bool CanBeSupport => AsSupportCount.Max > 0 && SupportSpawnWeight > 0;
 	public bool CanBePrimary => PrimarySpawnCount.Max > 0 && PrimarySpawnWeight > 0;
 
+	[Range(0, 10)]
+	public int MinimumSpawnLevel;
+
 	public EnemyBehave Prefab;
 }

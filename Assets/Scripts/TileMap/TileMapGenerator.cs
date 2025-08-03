@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static TileMapHelpers;
+using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
 
 public class TileMapGenerator : MonoBehaviour
@@ -227,8 +228,8 @@ public class TileMapGenerator : MonoBehaviour
 		int min = primary.PrimarySpawnCount.Min;
 		int max = primary.PrimarySpawnCount.Max;
 
-		min += (int)(primary.ExtraSpawnsPerLevelPrimary * level);
-		max += (int)(primary.ExtraSpawnsPerLevelPrimary * level);
+		min += (int)(primary.ExtraSpawnsPerLevelPrimary * (level - primary.MinimumSpawnLevel));
+		max += (int)(primary.ExtraSpawnsPerLevelPrimary * (level - primary.MinimumSpawnLevel));
 
 		GenRoomEnemies_Inner(room, min, max, primary);
 
@@ -237,8 +238,8 @@ public class TileMapGenerator : MonoBehaviour
 			min = support.AsSupportCount.Min;
 			max = support.AsSupportCount.Max;
 
-			min += (int)(support.ExtraSpawnsPerLevelSupport * level);
-			max += (int)(support.ExtraSpawnsPerLevelSupport * level);
+			min += (int)(support.ExtraSpawnsPerLevelSupport * (level - support.MinimumSpawnLevel));
+			max += (int)(support.ExtraSpawnsPerLevelSupport * (level - support.MinimumSpawnLevel));
 
 			GenRoomEnemies_Inner(room, min, max, support);
 		}
@@ -334,11 +335,11 @@ public class TileMapGenerator : MonoBehaviour
 
 		foreach (SpawnInfo item in Enemies)
 		{
-			if (item.CanBePrimary)
-				PrimaryWeightedRandom.AddElement(item.PrimarySpawnWeight + (item.ExtraWeightPerLevelPrimary * level), item);
+			if (item.CanBePrimary && level >= item.MinimumSpawnLevel)
+				PrimaryWeightedRandom.AddElement(item.PrimarySpawnWeight + (item.ExtraWeightPerLevelPrimary * (level - item.MinimumSpawnLevel)), item);
 
-			if (item.CanBeSupport)
-				SupportWeightedRandom.AddElement(item.SupportSpawnWeight + (item.ExtraWeightPerLevelSupport * level), item);
+			if (item.CanBeSupport && level >= item.MinimumSpawnLevel)
+				SupportWeightedRandom.AddElement(item.SupportSpawnWeight + (item.ExtraWeightPerLevelSupport * (level - item.MinimumSpawnLevel)), item);
 		}
 	}
 

@@ -3,8 +3,9 @@
 - [ ] Names???
 - Gameplay
   - [ ] Boss AI / Boss Room
+    - [X] Room
+    - [ ] Basic Chaser AI
     - [ ] Projectiles
-    - [ ] AOE?
   - [X] Bat AI
   - [ ] Platforms
   - [ ] Better level transitions
@@ -13,6 +14,7 @@
 - [X] Lighting
   - [X] Add Lights to enemies
   - [X] Dynamic Room Brightness
+  - [ ] Lights on drops
 - [X] Random Drops
   - [X] Increased Damage
   - [X] Increased Health
@@ -20,8 +22,8 @@
   - [X] Health Regen
   - [X] Faster Attack
 - [ ] UI
-  - [ ] Text stuff
-    - [ ] Tutorial Friend
+  - [X] Text stuff
+    - [X] Tutorial Friend
   - [ ] Drop Choose UI
   - [X] Health
   - [X] Boss Health
