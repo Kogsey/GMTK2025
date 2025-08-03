@@ -23,6 +23,8 @@ public class SwordController : MonoBehaviour
 	public HitInfo BigHitInfo;
 	public HitInfo SmallHitInfo;
 
+	public float CooldownCounter = 0f;
+	public float Cooldown = 2f;
 	public float SwingSpeedMultiplier = 1f;
 	public float DamageMultiplier = 1f;
 	public FrameData[] Idle;
@@ -47,12 +49,13 @@ public class SwordController : MonoBehaviour
 	void Update()
 	{
 		animationHelper.Update();
+		CooldownCounter += Time.deltaTime;
 
 		if (!isSwung)
 		{
 			if (Input.GetKey(Settings.CurrentSettings.Primary))
 				PrimaryAttack();
-			else if (Input.GetKey(Settings.CurrentSettings.Secondary))
+			else if (CooldownCounter > Cooldown && Input.GetKey(Settings.CurrentSettings.Secondary))
 				SecondaryAttack();
 		}
 		else

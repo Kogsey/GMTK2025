@@ -82,13 +82,19 @@ public static class Extensions
 	}
 
 	private const int DefaultDecayScale = 15;
-	private static float InterpolationTime => Time.smoothDeltaTime;
+	private static float InterpolationTime => Time.deltaTime;
 
 	public static float SinLerp(float a, float b, float t)
 	{
 		float sinT = (Mathf.Sin((Mathf.PI * t) - (Mathf.PI / 2)) + 1) / 2;
 		return Mathf.LerpUnclamped(a, b, sinT);
 	}
+
+	public static float SmoothLerpFactor(float decayScale = DefaultDecayScale)
+		=> Mathf.Exp(-decayScale * InterpolationTime);
+
+	public static float SmoothInterpolateAngle(float a, float b, float decayScale = DefaultDecayScale)
+		=> Mathf.LerpAngle(a, b, SmoothLerpFactor(decayScale));
 
 	public static float SmoothInterpolate(float a, float b, float decayScale = DefaultDecayScale)
 		=> b + ((a - b) * MathF.Exp(-decayScale * InterpolationTime));

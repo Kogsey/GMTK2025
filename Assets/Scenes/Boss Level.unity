@@ -426,6 +426,93 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7205369489298707148, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
   m_PrefabInstance: {fileID: 3411908222726922853}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &335485993 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 990541237520619031, guid: f947df83357bfc343bb38f8ef45ccdbf, type: 3}
+  m_PrefabInstance: {fileID: 2333637538609801395}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb4a246d4fcdad44b5b1ad05580268f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &824451483 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1627280815736654152, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+  m_PrefabInstance: {fileID: 1093180269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792ba1759b945a94a8a35a6b3f70a001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &1093180269
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1627280815736654152, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: BossController
+      value: 
+      objectReference: {fileID: 335485993}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617642101037240684, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332676457126373275, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
+      propertyPath: m_Name
+      value: Weapon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
 --- !u!1 &1170780010
 GameObject:
   m_ObjectHideFlags: 0
@@ -27778,6 +27865,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 990541237520619031, guid: f947df83357bfc343bb38f8ef45ccdbf, type: 3}
+      propertyPath: BossWeapon
+      value: 
+      objectReference: {fileID: 824451483}
     - target: {fileID: 4697835084705003371, guid: f947df83357bfc343bb38f8ef45ccdbf, type: 3}
       propertyPath: m_RootOrder
       value: 4

@@ -198,11 +198,11 @@ MonoBehaviour:
   ExtendedJumpTimerMax: 0.15
   FloatTimerMax: 0.3
   BaseSpeedForce: 15
-  BaseJumpImpulse: 600
+  BaseJumpImpulse: 800
   FloatSpeedCap: -1.5
   GroundSpeedCap: 17
   HighJumpMinSpeed: 0.15
-  HighJumpForceMult: 1.2
+  HighJumpForceMult: 1.3
   HighJumpTimeMult: 1
   DodgeTime: 0.2
   DodgeSpeedOverride: 20
@@ -251,7 +251,14 @@ MonoBehaviour:
   - FrameTime: 0.2
     Frame: {fileID: -783754497747943114, guid: db143360339905444b94b57cc4ac5af6, type: 3}
   Dodge: {fileID: -5243833562793623642, guid: db143360339905444b94b57cc4ac5af6, type: 3}
+  RangedAttackPrefab: {fileID: 1192927491075992083, guid: fef5d16f92cf25f4d9b1643e433f2c61, type: 3}
+  BossWeapon: {fileID: 0}
   MinPlayerDistanceForDodge: 5
+  MinPlayerDistanceForThrow: 0
+  RangedAttackOffset: {x: 0, y: 0}
+  RangedAttackPrePause: 0.5
+  RangedAttackPostPause: 0.6
+  RangedAttackShootSpeed: 8
 --- !u!70 &1713072438242745205
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -344,7 +351,7 @@ MonoBehaviour:
   DamageMeColliders:
   - {fileID: 5920538072856303065}
   CheatHealth: 0
-  _health: 50
+  _health: 75
   MaxHealth: 75
   ImmunityTimer:
     <Time>k__BackingField: 0

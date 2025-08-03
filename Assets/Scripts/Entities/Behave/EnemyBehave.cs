@@ -40,9 +40,9 @@ public abstract class EnemyBehave : EntityBehave
 		if (Dead)
 		{
 			DeadTimer += Time.deltaTime;
-			BaseColour = Color.Lerp(Color.white, new Color(0, 0, 0, 0), DeadTimer);
-			if (DeadTimer >= 1)
-				Destroy(gameObject);
+			BaseColour = Color.Lerp(Color.white, new Color(0, 0, 0, 0), DeadTimer / DeathTimerMax);
+			if (DeadTimer >= DeathTimerMax)
+				OnDeathTimerEnd();
 		}
 
 		if (PlayerInRoom() || CanSee(Player.transform.position))
@@ -75,6 +75,10 @@ public abstract class EnemyBehave : EntityBehave
 		BetterSingleton<DropSystem>.Instance.DropCheck(this);
 		Dead = true;
 	}
+
+	protected virtual float DeathTimerMax => 1f;
+	protected virtual void OnDeathTimerEnd() 
+		=> Destroy(gameObject);
 
 	public Vector2 TargetVector => TargetPos - (Vector2)transform.position;
 

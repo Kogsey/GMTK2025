@@ -3,7 +3,6 @@
 using System;
 using UnityEngine;
 using Utilities.Movement;
-using Utilities.Timing;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(GroundCheck))]
@@ -71,9 +70,12 @@ public class BossController : EnemyBehave
 	private float FallSpeedCap => 10 * FloatSpeedCap;
 	private float AirSpeedCap => 1.5f * GroundSpeedCap;
 
+	public BossProjectile RangedAttackPrefab;
+
 	private GroundCheck GroundCheck { get; set; }
 	private AnimationHelper AnimationHelper { get; set; }
 	private EntityHealth HealthData { get; set; }
+	public BossWeapon BossWeapon;
 
 	private PhysicsVelocity2D Velocity;
 
@@ -107,45 +109,17 @@ public class BossController : EnemyBehave
 	private float AttackTimer { get; set; }
 	private float MaxAttackTimer { get; set; } = 10f;
 	private Action CurrentAttack { get; set; }
-	private Vector2 Centre => BoundsCheckingRect.center;
+	public Vector2 Centre => BoundsCheckingRect.center;
 
 	private int GetDirectionTo(float position)
 		=> Centre.x < position ? 1 : -1;
 
 	private int _dodgeDirection;
 	public float MinPlayerDistanceForDodge;
+	public float MinPlayerDistanceForThrow;
+	private bool _dodgeFollowUp = false;
 
-	private Action RollAttack()
-	{
-		switch (Random.Range(0, 4))
-		{
-			case 1:
-			case 0:
-				float targetPos = TargetPos.x;
-				int direction = GetDirectionTo(targetPos);
-				MaxAttackTimer = 2f;
-				return () => RunToPoint(targetPos, direction);
-
-			case 2:
-
-				float holdFor = Random.Range(1, 3);
-				MaxAttackTimer = holdFor * 1.5f;
-				return () => DynamicJump(holdFor);
-
-			case 3:
-				if (TargetVector.magnitude > MinPlayerDistanceForDodge)
-					goto case 0;
-
-				_dodgeDirection = -GetDirectionTo(TargetPos.x);
-				MaxAttackTimer = DodgeTime;
-				InDodgeRails = true;
-				return DodgeMovement;
-
-			default:
-				MaxAttackTimer = 2f;
-				return ChasePlayer;
-		}
-	}
+	private const int attackMax = 5;
 
 	private void UpdateAttack()
 	{
@@ -158,8 +132,81 @@ public class BossController : EnemyBehave
 			HealthData.OtherImmune = IsImmune;
 	}
 
+	private Action RollAttack()
+	{
+		int moveNumber = Random.Range(0, attackMax);
+
+		if (_dodgeFollowUp)
+		{
+			_dodgeFollowUp = false;
+			moveNumber = Random.Range(4, attackMax);
+		}
+
+		switch (moveNumber)
+		{
+			case 1:
+			case 0:
+				float targetPos = TargetPos.x;
+				int direction = GetDirectionTo(targetPos);
+				MaxAttackTimer = 2f;
+				return () => RunToPoint(targetPos, direction);
+
+			case 2:
+
+				float holdFor = Random.Range(1, 3);
+				MaxAttackTimer = holdFor * 1.5f;
+				willThrowCheck = /*Random.value < 0.5f*/true;
+
+				return () => DynamicJump(holdFor);
+
+			case 3:
+				if (TargetVector.magnitude > MinPlayerDistanceForDodge)
+					goto case 0;
+
+				_dodgeDirection = -GetDirectionTo(TargetPos.x);
+				MaxAttackTimer = DodgeTime;
+				InDodgeRails = true;
+				return DodgeMovement;
+
+			case 4:
+				MaxAttackTimer = 3f;
+				return RangedAttack;
+
+			default:
+				MaxAttackTimer = 2f;
+				return ChasePlayer;
+		}
+	}
+
+	public Vector2 RangedAttackOffset;
+	public float RangedAttackPrePause = 0.2f;
+	public float RangedAttackPostPause = 0.1f;
+	public float RangedAttackShootSpeed = 4f;
+	private bool _hasRangedAttacked = false;
+
+	private void RangedAttack()
+	{
+		FaceDirection = GetDirectionTo(TargetPos.x);
+
+		if (!_hasRangedAttacked)
+		{
+			if (AttackTimer >= RangedAttackPrePause)
+			{
+				Vector2 spawnPos = Centre + RangedAttackOffset;
+				BossProjectile bossProjectile = Instantiate(RangedAttackPrefab, spawnPos, Quaternion.identity);
+				bossProjectile.SetShoot(RangedAttackShootSpeed * FaceDirection * Vector2.right);
+				_hasRangedAttacked = true;
+			}
+		}
+		else if (AttackTimer >= RangedAttackPostPause + RangedAttackPrePause)
+		{
+			EndAttack();
+		}
+	}
+
 	private void EndAttack()
 	{
+		_hasRangedAttacked = false;
 		AttackTimer = 0f;
 		CurrentAttack = null;
 		hasJumped = false;
@@ -183,6 +230,7 @@ public class BossController : EnemyBehave
 	}
 
 	bool hasJumped = false;
+	bool willThrowCheck;
 
 	private void DynamicJump(float heldTime)
 	{
@@ -192,12 +240,22 @@ public class BossController : EnemyBehave
 		if (JumpState != Jump.None)
 			hasJumped = true;
 
+		if (hasJumped && Velocity.y < 0)
+		{
+			if (willThrowCheck && BossWeapon.CanDoNewAttack && TargetVector.magnitude > MinPlayerDistanceForThrow)
+			{
+				willThrowCheck = false;
+				BossWeapon.Throw(TargetPos);
+			}
+		}
+
 		if (hasJumped && JumpState == Jump.None)
 			EndAttack();
 	}
 
 	public void DodgeMovement()
 	{
+		_dodgeFollowUp = true;
 		FaceDirection = -_dodgeDirection;
 		Velocity.SetVelocity(DodgeSpeedOverride * _dodgeDirection * Vector2.right);
 		InDodgeRails = true;
@@ -213,7 +271,8 @@ public class BossController : EnemyBehave
 		Velocity = new PhysicsVelocity2D(RigidBody.velocity);
 		UpdateTimers();
 
-		UpdateAttack();
+		if (!Dead)
+			UpdateAttack();
 
 		FinalPhysicsUpdate();
 		ChooseFrame();
@@ -422,12 +481,23 @@ public class BossController : EnemyBehave
 
 	public override void OnDeath()
 	{
+		Dead = true;
 		AnimationHelper.CheckedSwapToSequence(DeathFrames);
 		AnimationHelper.LoopAnimation = false;
 		AnimationHelper.FreezeChanges = true;
 		RigidBody.gravityScale = GravityScale;
-		Dead = true;
+
+		if (TryGetComponent(out Aggressor aggressor))
+			aggressor.HitInfo = HitInfo.GetImpotent();
+
+		if (BossWeapon.TryGetComponent(out aggressor))
+			aggressor.HitInfo = HitInfo.GetImpotent();
 	}
+
+	protected override float DeathTimerMax => 3f;
+
+	protected override void OnDeathTimerEnd()
+		=> BetterSingleton<GameplayLoop>.Instance.OnBossBeaten();
 
 	#endregion Death
 

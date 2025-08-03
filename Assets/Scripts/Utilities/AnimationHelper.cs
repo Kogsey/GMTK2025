@@ -6,6 +6,7 @@ public class AnimationHelper
 
 	public bool FreezeChanges { get; set; }
 	public bool LoopAnimation { get; set; } = true;
+	public int LoopStartPoint { get; set; } = 0;
 	public bool Paused { get; set; }
 	public bool AnimationEnded { get; private set; }
 	public int CurrentFrame { get; private set; }
@@ -84,7 +85,7 @@ public class AnimationHelper
 				{
 					if (LoopAnimation)
 					{
-						CurrentFrame = 0;
+						CurrentFrame = LoopStartPoint;
 					}
 					else
 					{

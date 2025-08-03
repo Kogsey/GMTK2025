@@ -2,14 +2,16 @@
 
 - [ ] Names???
 - Gameplay
-  - [ ] Boss AI / Boss Room
+  - [X] Boss AI / Boss Room
     - [X] Room
-    - [ ] Basic Chaser AI
-    - [ ] Projectiles
+    - [X] Basic Chaser AI
+    - [X] Projectiles
+    - [X] Weapon
   - [X] Bat AI
   - [ ] Platforms
   - [ ] Better level transitions
   - [ ] Balance
+  - [ ] Incremental enemy difficulty
   - [X] Random Skull Colours
 - [X] Lighting
   - [X] Add Lights to enemies
