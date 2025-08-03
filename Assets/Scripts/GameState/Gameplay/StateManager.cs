@@ -55,7 +55,7 @@ public class StateManager : BetterSingleton<StateManager>
 
 	public void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (IsRealInstance && Input.GetKeyDown(KeyCode.Escape))
 		{
 			if (SceneManager.GetActiveScene().name == MainMenuScreen)
 				QuitGame();

@@ -2,13 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.Movement;
 using Utilities.Timing;
 
 [RequireComponent(typeof(GroundCheck))]
-public class PlayerController : EntityBehave, ISingleton
+public class PlayerController : EntityBehave
 {
 	[Header("Movement")]
 	public float PreJumpTimerMax = 0.4f;

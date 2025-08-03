@@ -1,16 +1,16 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MusicManager : BetterSingleton<MusicManager>, ISingleton
+public class MusicManager : BetterSingleton<MusicManager>
 {
 	public AudioSource AudioSource;
 
 	public AudioClip[] PossibleSongs;
 
-	protected override void AwakeInternal()
+	private void Start()
 	{
-		base.AwakeInternal();
-		ReloadMusic();
+		if (IsRealInstance)
+			ReloadMusic();
 	}
 
 	public bool MuteMusic { get => Settings.CurrentSettings.MuteMusic; set => Settings.CurrentSettings.MuteMusic = value; }
