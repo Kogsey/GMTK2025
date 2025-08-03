@@ -33,8 +33,8 @@ public static class TileMapRandom
 		=> (int)RandomGaussianStdDev(5 + (level / 3), 0.5f);
 
 	/// <inheritdoc cref="Room.ConnectionLength"/>
-	public static int NextConnectionLength()
-		=> Random.Range(3, 6);
+	public static int NextConnectionLength(bool isLastRoom)
+		=> isLastRoom ? 30 : Random.Range(3, 6);
 
 	/// <inheritdoc cref="Room.ConnectionHallHeight"/>
 	public static int NextConnectionHeight()

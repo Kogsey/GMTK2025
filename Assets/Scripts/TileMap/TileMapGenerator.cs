@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class TileMapGenerator : MonoBehaviour
 {
+	private const int ViewPadding = 16;
 	public SpriteRenderer ArrowObject;
 	public PlayerController Player;
 	public NextLevelCollider NextLevel;
@@ -113,7 +114,7 @@ public class TileMapGenerator : MonoBehaviour
 				RoomTilesBounds = rect,
 				ConnectionGroundOffset = TileMapRandom.NextConnectionGroundOffset(),
 				ConnectionHallHeight = TileMapRandom.NextConnectionHeight(),
-				ConnectionLength = TileMapRandom.NextConnectionLength(),
+				ConnectionLength = TileMapRandom.NextConnectionLength(roomI + 1 >= RoomsArray.Length),
 				LightIntensity = Random.Range(0f, 1f),
 			};
 
@@ -213,10 +214,11 @@ public class TileMapGenerator : MonoBehaviour
 		ClearFill(Foreground, roomBounds.Inflate(-1));
 	}
 
-	private const int ViewPadding = 16;
-
 	private void SetViewPaddingTiles(Room room)
-		=> BackdropFill(Foreground, room.RoomTilesBounds.Inflate(ViewPadding), TileSet);
+	{
+		BackdropFill(Foreground, room.RoomTilesBounds.Inflate(ViewPadding), TileSet);
+		BackdropFill(Foreground, room.ConnectionBounds.Inflate(ViewPadding), TileSet);
+	}
 
 	private void GenRoomEnemies(int level, int _, Room room)
 	{

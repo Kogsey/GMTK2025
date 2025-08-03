@@ -1,11 +1,14 @@
 # GMTK 2025 TODO list
 
 - [ ] Names???
-- [ ] Boss AI / Boss Room
-  - [ ] Projectiles
-  - [ ] AOE?
-- [X] Bat AI
-- [ ] Platforms
+- Gameplay
+  - [ ] Boss AI / Boss Room
+    - [ ] Projectiles
+    - [ ] AOE?
+  - [X] Bat AI
+  - [ ] Platforms
+  - [ ] Better level transitions
+  - [ ] Balance
 - [X] Lighting
   - [X] Add Lights to enemies
   - [X] Dynamic Room Brightness
