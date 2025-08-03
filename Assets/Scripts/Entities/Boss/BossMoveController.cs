@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(GroundCheck))]
 public class BossController : EnemyBehave
 {
+	public float CutSceneTimer = 3f;
+
 	[Header("Movement")]
 	public float PreJumpTimerMax = 0.4f;
 
@@ -271,7 +273,7 @@ public class BossController : EnemyBehave
 		Velocity = new PhysicsVelocity2D(RigidBody.velocity);
 		UpdateTimers();
 
-		if (!Dead)
+		if (!Dead && CutSceneTimer < 0)
 			UpdateAttack();
 
 		FinalPhysicsUpdate();
@@ -282,6 +284,7 @@ public class BossController : EnemyBehave
 	{
 		JumpStateTimer -= Velocity.DeltaTime;
 		AttackTimer += Velocity.DeltaTime;
+		CutSceneTimer -= Velocity.DeltaTime;
 	}
 
 	public void MoveInDirection(int direction)

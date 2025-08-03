@@ -1,7 +1,6 @@
 // Ignore Spelling: Collider
 
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AngryFloater : EnemyBehave

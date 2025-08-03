@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityType: 2
+  CutsceneTimer: 0
   PreJumpTimerMax: 0.1
   JumpDelayTimerMax: 0.5
   ExtendedJumpTimerMax: 0.15
@@ -190,6 +191,7 @@ MonoBehaviour:
   HighJumpTimeMult: 1
   BaseDodgeTime: 0.2
   DodgeSpeedOverride: 20
+  DodgeSpeed: 0
   InDodgeRails: 0
   DodgeNoImmuneTime: 0
   DodgesLeft: 0
@@ -420,6 +422,8 @@ MonoBehaviour:
     HitType: 1
     RawDamage: 1
     Pierce: 1
+  CooldownCounter: 0
+  Cooldown: 2
   SwingSpeedMultiplier: 1
   DamageMultiplier: 1
   Idle:

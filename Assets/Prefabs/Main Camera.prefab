@@ -57,7 +57,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6fb2bd1881c83af48a5bff4e7b7b2431, type: 3}
   ParallaxPosition: {x: 0, y: 1}
   ParallaxFactor: 0.3
-  Distance: 0
+  BackGroundLerp: 0
+  AutoBackdrop: 1
 --- !u!1 &3542260483681457514
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6e135d7039f68449e9b7f75b424d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeUntilStart: 0
+  TimeToReturn: 0.5
   tracked: {fileID: 0}
   Offset: {x: 0, y: 0.8, z: -10}
   TruePosition: {x: 0, y: 0, z: 0}

@@ -11,8 +11,9 @@ public class TimedTextBoxManager : MonoBehaviour
 	public static List<string> MessageOptionsList = new()
 	{
 		"This will count as leave without pay",
+		"Even if you did escape, I'd just make you work from home!",
 		"My my - trying to quit? I'm afraid I just can't allow it",
-		"This behaviour will reflect on your bonus - oh wait thats right, you don't get one ahaha",
+		"This behaviour will reflect on your bonus - oh wait that's right, you don't get one ahaha",
 		"Oh no - I'm afraid you've failed to submit the appropriate paperwork for this little excursion",
 		"Oh so close - but you'll go no further. You don't want to be late for work now do you?",
 		"Do you know how many codes you're violating? Oh the paperwork I'm going to have to fill out"
@@ -39,16 +40,16 @@ public class TimedTextBoxManager : MonoBehaviour
 	}
 
 	IEnumerator<WaitForSeconds> HideTextAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay); // Wait for the specified duration
-        
-        if (TextPanel != null)
-        {
-            TextPanel.gameObject.SetActive(false); // Deactivate the Panel GameObject
-        }
+	{
+		yield return new WaitForSeconds(delay); // Wait for the specified duration
+
+		if (TextPanel != null)
+		{
+			TextPanel.SetActive(false); // Deactivate the Panel GameObject
+		}
 		if (MessageText != null)
-        {
-            MessageText.gameObject.SetActive(false); // Deactivate the Text GameObject
-        }
-    }
+		{
+			MessageText.gameObject.SetActive(false); // Deactivate the Text GameObject
+		}
+	}
 }

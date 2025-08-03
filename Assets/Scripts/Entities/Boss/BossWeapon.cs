@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86;
 
 public class BossWeapon : MonoBehaviour
 {
@@ -21,6 +20,7 @@ public class BossWeapon : MonoBehaviour
 
 	private const int deltaCounts = 5;
 	private float smoothDeltaX;
+
 	private Vector2 Centre
 	{
 		/*		get => Renderer.bounds.center;
@@ -79,6 +79,7 @@ public class BossWeapon : MonoBehaviour
 	private float _internalRotation = 0f;
 	public float RotationSpeed;
 	public float InterpolationStrength = 15f;
+
 	private void UpdateRotation()
 	{
 		if (IsThrown)
@@ -120,7 +121,6 @@ public class BossWeapon : MonoBehaviour
 		if (IsThrown)
 		{
 			FaceDirection = BossController.FaceDirection;
-
 		}
 		else
 		{

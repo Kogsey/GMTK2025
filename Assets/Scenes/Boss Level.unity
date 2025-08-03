@@ -286,6 +286,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dd5b069ff281e143b23c93121ada360, type: 3}
+--- !u!114 &335485993 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 990541237520619031, guid: f947df83357bfc343bb38f8ef45ccdbf, type: 3}
+  m_PrefabInstance: {fileID: 2333637538609801395}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb4a246d4fcdad44b5b1ad05580268f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &747077074
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,22 +432,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747077074}
   m_CullTransparentMesh: 1
---- !u!20 &1018116650 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 7205369489298707148, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
-  m_PrefabInstance: {fileID: 3411908222726922853}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &335485993 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 990541237520619031, guid: f947df83357bfc343bb38f8ef45ccdbf, type: 3}
-  m_PrefabInstance: {fileID: 2333637538609801395}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb4a246d4fcdad44b5b1ad05580268f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &824451483 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1627280815736654152, guid: d66a349d426763e4a88c6f029e56aafb, type: 3}
@@ -448,6 +443,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792ba1759b945a94a8a35a6b3f70a001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!20 &1018116650 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7205369489298707148, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
+  m_PrefabInstance: {fileID: 3411908222726922853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1093180269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -646,7 +646,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1291105191
 GameObject:
@@ -27680,6 +27680,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3730775657075768498, guid: f68813b38993e374e8a8e9ba6d47b664, type: 3}
+      propertyPath: CutsceneTimer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4426056891217766689, guid: f68813b38993e374e8a8e9ba6d47b664, type: 3}
       propertyPath: m_Name
       value: Player
@@ -27938,6 +27942,10 @@ PrefabInstance:
       propertyPath: tracked
       value: 
       objectReference: {fileID: 1896687794}
+    - target: {fileID: 2841047771144307276, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
+      propertyPath: TimeUntilStart
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3542260483681457514, guid: 1f52521cd6380dc439c7b951359d318a, type: 3}
       propertyPath: m_Name
       value: Main Camera

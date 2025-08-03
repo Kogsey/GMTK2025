@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using static UnityEngine.Rendering.DebugUI;
 
 public class FloorItem : MonoBehaviour
 {
@@ -16,9 +15,7 @@ public class FloorItem : MonoBehaviour
 	Light2D BackLight;
 
 	private void Awake()
-	{
-		BackLight = GetComponentInChildren<Light2D>();
-	}
+		=> BackLight = GetComponentInChildren<Light2D>();
 
 	public void SetItem(ItemDrop itemDrop)
 	{

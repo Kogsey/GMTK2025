@@ -9,6 +9,8 @@ using Utilities.Timing;
 [RequireComponent(typeof(GroundCheck))]
 public class PlayerController : EntityBehave
 {
+	public float CutsceneTimer = 3f;
+
 	[Header("Movement")]
 	public float PreJumpTimerMax = 0.4f;
 
@@ -192,13 +194,15 @@ public class PlayerController : EntityBehave
 											   //FloatTimeLeft -= Velocity.DeltaTime;
 		JumpStateTimer -= Velocity.DeltaTime;
 
+		CutsceneTimer -= Velocity.DeltaTime;
+
 		QueueJumpTimer.Tick();
 		QueueDodgeTimer.Tick();
 	}
 
 	public void Movement()
 	{
-		if (!Dead)
+		if (!Dead && CutsceneTimer < 0)
 		{
 			DodgeMovement();
 

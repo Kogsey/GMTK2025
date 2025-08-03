@@ -15,8 +15,8 @@ public class BackdropManager : MonoBehaviour
 	public Vector2 ParallaxPosition = Vector2.zero;
 	public float ParallaxFactor = 1.0f;
 
-	[Range(0f, 3f)]
-	public float Distance = 0f;
+	[Range(0f, 1f)]
+	public float BackGroundLerp = 0f;
 
 	private void Start()
 	{
@@ -28,6 +28,7 @@ public class BackdropManager : MonoBehaviour
 			{
 				backDropChildren[i] = Instantiate(BackdropPrefab, transform);
 				backDropChildren[i].sprite = Backdrops[i];
+				backDropChildren[i].sortingOrder = i - 4;
 			}
 		}
 
@@ -41,14 +42,19 @@ public class BackdropManager : MonoBehaviour
 		}
 	}
 
+	public bool AutoBackdrop = true;
+
 	private void Update()
 	{
+		if (AutoBackdrop)
+			BackGroundLerp = BetterSingleton<GameplayLoop>.Instance.Level / 10f;
+
 		if (backDropChildren != null)
 		{
-			for (int i = 0; i < backDropChildren.Length; i++)
+			for (int i = 1; i < Backdrops.Length; i++)
 			{
-				float thisT = Mathf.Clamp(Distance - i, -1f, 1f);
-				float opacity = Extensions.SinLerp(1f, 0f, thisT);
+				float thisT = Mathf.Clamp01((BackGroundLerp * backDropChildren.Length) - (i - 1));
+				float opacity = Extensions.SinLerp(0f, 1f, thisT);
 
 				if (opacity > 0f)
 				{
