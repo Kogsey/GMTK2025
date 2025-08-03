@@ -53,10 +53,10 @@ public class SwordController : MonoBehaviour
 
 		if (!isSwung)
 		{
-			if (Input.GetKey(Settings.CurrentSettings.Primary))
-				PrimaryAttack();
-			else if (CooldownCounter > Cooldown && Input.GetKey(Settings.CurrentSettings.Secondary))
+			if (CooldownCounter > Cooldown && Input.GetKey(Settings.CurrentSettings.Secondary))
 				SecondaryAttack();
+			else if (Input.GetKey(Settings.CurrentSettings.Primary))
+				PrimaryAttack();
 		}
 		else
 		{
@@ -91,6 +91,7 @@ public class SwordController : MonoBehaviour
 
 	private void ResetAttackVariables()
 	{
+		CooldownCounter = 0f;
 		isSwung = isPrimary = false;
 		SmallSwingCollider.enabled = false;
 		BigSwingCollider.enabled = false;
