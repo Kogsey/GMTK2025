@@ -33,7 +33,7 @@ public class ItemDropCategory
 		float roll = Extensions.RandomGaussianStdDev(currentMean, Sigma);
 		return new()
 		{
-			Category = Type,
+			Parent = this,
 			Value = roll,
 		};
 	}
@@ -41,15 +41,63 @@ public class ItemDropCategory
 
 public interface IPlayerStatEffector
 {
-	public void Set(PlayerController playerController);
+	/// <summary>
+	/// Called every stat regen
+	/// </summary>
+	void ApplyConstantEffect(PlayerController playerController);
+
+	/// <summary>
+	/// Called Once when the item is picked up
+	/// </summary>
+	void ApplyInstantEffect(PlayerController playerController);
 }
 
 public class ItemDrop : IPlayerStatEffector
 {
-	public ItemDropType Category;
+	public ItemDropCategory Parent;
 	public float Value;
 
-	public void Set(PlayerController playerController)
+	public void ApplyInstantEffect(PlayerController playerController)
 	{
+		switch (Parent.Type)
+		{
+			case ItemDropType.HealthRegen:
+				playerController.AddHealthRegen((int)Value);
+				break;
+			case ItemDropType.IncreasedHealth:
+				playerController.AddHealthRegen((int)Value, true);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	public void ApplyConstantEffect(PlayerController playerController)
+	{
+		switch (Parent.Type)
+		{
+			case ItemDropType.IncreasedHealth:
+				playerController.MaxHealth += (int)Value;
+				break;
+
+			case ItemDropType.FasterAttack:
+				playerController.AttackSpeed *= Value;
+				break;
+
+			case ItemDropType.IncreasedDamage:
+				playerController.DamageMultiplier += Value;
+				break;
+
+			case ItemDropType.HealthRegen:
+				break;
+
+			case ItemDropType.LongerDodge:
+				playerController.DodgeTime *= Value;
+				break;
+
+			default:
+				break;
+		}
 	}
 }

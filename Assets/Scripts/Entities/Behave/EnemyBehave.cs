@@ -65,6 +65,7 @@ public abstract class EnemyBehave : EntityBehave
 		if (TryGetComponent(out Aggressor aggressor))
 			aggressor.HitInfo = HitInfo.GetImpotent();
 
+		BetterSingleton<DropSystem>.Instance.DropCheck(this);
 		Dead = true;
 	}
 

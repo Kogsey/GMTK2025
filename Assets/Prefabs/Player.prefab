@@ -188,10 +188,12 @@ MonoBehaviour:
   HighJumpMinSpeed: 0.15
   HighJumpForceMult: 1.2
   HighJumpTimeMult: 1
-  DodgeTime: 0.2
+  BaseDodgeTime: 0.2
   DodgeSpeedOverride: 20
   InDodgeRails: 0
   DodgeNoImmuneTime: 0
+  DodgesLeft: 0
+  maxDodges: 1
   GravityScale: 3
   ExtendedJumpGravityScale: 0.1
   XDrag: 0.975
@@ -243,8 +245,6 @@ MonoBehaviour:
   - FrameTime: 0.2
     Frame: {fileID: -4925560481185812424, guid: ed209d9fbf6eaa443a32303b19a9949b, type: 3}
   Dodge: {fileID: -4693932192084691647, guid: 6c0711cc1b8181c478738bc2a04ca231, type: 3}
-  DodgesLeft: 0
-  maxDodges: 1
   QueueJumpTimer:
     <Time>k__BackingField: 100
     <MaxTime>k__BackingField: 0.2
@@ -297,11 +297,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aadae17e99295e42853a0f2dd3a49da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 6514447310705380114}
   entity: {fileID: 3730775657075768498}
   SpriteRenderer: {fileID: 1574229720922307214}
   DamageMeColliders: []
   CheatHealth: 0
+  _health: 0
   MaxHealth: 10
   ImmunityTimer:
     <Time>k__BackingField: 0
@@ -419,6 +420,8 @@ MonoBehaviour:
     HitType: 1
     RawDamage: 1
     Pierce: 1
+  SwingSpeedMultiplier: 1
+  DamageMultiplier: 1
   Idle:
   - FrameTime: 1
     Frame: {fileID: 21300000, guid: cdbdbc9be04352746834c57ca6e13b2a, type: 3}
@@ -642,3 +645,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8274869227775329786, guid: c5805b67f048047488bb2ecf034a57b8, type: 3}
   m_PrefabInstance: {fileID: 4202397300441218000}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6514447310705380114 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6932760855340396738, guid: c5805b67f048047488bb2ecf034a57b8, type: 3}
+  m_PrefabInstance: {fileID: 4202397300441218000}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb8878e70a36b8438f2fce44acef779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -11,6 +11,8 @@ public abstract class EntityBehave : MonoBehaviour
 	/// <summary> -1 for left, 1 for right </summary>
 	protected int FaceDirection { get => (int)transform.localScale.x; set => transform.localScale = new Vector3(value, 1, 1); }
 
+	public Rect BoundsCheckingRect => SpriteRenderer.bounds.ZFlattened();
+
 	public Color BaseColour
 	{
 		get => _colour;

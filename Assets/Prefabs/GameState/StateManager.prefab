@@ -60,7 +60,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21588956ffd662147be63e11b0d8f147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropPrefab: {fileID: 0}
+  DropChance: 0.1
+  ItemDrops:
+  - Type: 0
+    Sprites:
+    - {fileID: 85446346, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: -283538535, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 10
+    Sigma: 5
+    MeanPerLevel: 2
+    Weight: 1
+    Description: Increases max health a lot
+    LongName: Max Health ++
+  - Type: 0
+    Sprites:
+    - {fileID: -845086908, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: 1990793890, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 5
+    Sigma: 2
+    MeanPerLevel: 2
+    Weight: 4
+    Description: Increases max health
+    LongName: Max Health +
+  - Type: 1
+    Sprites:
+    - {fileID: 1292600012, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: -1687871690, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 1.5
+    Sigma: 0.1
+    MeanPerLevel: 0.01
+    Weight: 2
+    Description: Increases attack speed
+    LongName: Attack Speed +
+  - Type: 2
+    Sprites:
+    - {fileID: -1743392358, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: 1581451517, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 1.5
+    Sigma: 0.1
+    MeanPerLevel: 0.1
+    Weight: 3
+    Description: Increases attack damage
+    LongName: Attack Damage +
+  - Type: 3
+    Sprites:
+    - {fileID: -1488590420, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: -728861853, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 5
+    Sigma: 1
+    MeanPerLevel: 1
+    Weight: 8
+    Description: Increases health
+    LongName: Health +
+  - Type: 4
+    Sprites:
+    - {fileID: -1844199223, guid: 24753055290557645a58e8cc34418060, type: 3}
+    - {fileID: 637724292, guid: 24753055290557645a58e8cc34418060, type: 3}
+    Mean: 1.2
+    Sigma: 0.1
+    MeanPerLevel: 0.01
+    Weight: 3
+    Description: Improves dodge
+    LongName: Dodge +
+  DropPrefab: {fileID: 368938420288699101, guid: 4673f2327db59cd44810757b57a6624d, type: 3}
 --- !u!114 &5084530369689145180
 MonoBehaviour:
   m_ObjectHideFlags: 0

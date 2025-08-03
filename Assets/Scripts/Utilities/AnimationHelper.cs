@@ -9,6 +9,7 @@ public class AnimationHelper
 	public bool Paused { get; set; }
 	public bool AnimationEnded { get; private set; }
 	public int CurrentFrame { get; private set; }
+	public float AnimationSpeed { get; set; } = 1f;
 
 	private readonly SpriteRenderer spriteRenderer;
 	private FrameType currentFrameType;
@@ -74,7 +75,7 @@ public class AnimationHelper
 		if (currentFrameType == FrameType.Sequence)
 		{
 			if (!Paused)
-				frameTimer += deltaTime;
+				frameTimer += deltaTime * AnimationSpeed;
 			if (frameTimer > currentFrames[CurrentFrame].FrameTime)
 			{
 				CurrentFrame++;

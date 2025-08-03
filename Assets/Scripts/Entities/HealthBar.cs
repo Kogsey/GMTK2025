@@ -21,14 +21,19 @@ public class HealthBar : MonoBehaviour
 		}
 	}
 
-	public void Setup(int maxHealth)
+	public void UpdateAll(int maxHealth, int health)
+	{
+		UpdateMaxHealth(maxHealth);
+		UpdateHealth(health, 0, 0);
+	}
+
+	public void UpdateMaxHealth(int maxHealth)
 	{
 		maxWidth = maxHealth / RefScale;
 		Border.size = new Vector2(maxWidth + BorderPadding, Border.size.y);
-		UpdateBar(maxHealth, 0, 0);
 	}
 
-	public void UpdateBar(int health, int block = 0, int absorption = 0)
+	public void UpdateHealth(int health, int block = 0, int absorption = 0)
 	{
 		float bar = MathF.Max(health / RefScale, 0.5f);
 		Bar.size = new Vector2(bar, 1);
