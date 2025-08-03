@@ -67,4 +67,21 @@ public class AngryFloater : EnemyBehave
 		if (TryGetComponent(out Collider2D collision))
 			collision.isTrigger = false;
 	}
+
+	public override void SetDifficultyChanges(int level, PlayerController playerController)
+	{
+		base.SetDifficultyChanges(level, playerController);
+		MoveSpeed *= Mathf.Pow(1.1f, level);
+
+		float damageMultiplier = Mathf.Max(1, playerController.DamageMultiplier);
+
+		float healthMultiplier = damageMultiplier * 0.8f;
+
+		if (TryGetComponent(out EntityHealth entityHealth))
+		{
+			int newHealth = Mathf.CeilToInt(entityHealth.MaxHealth * healthMultiplier);
+			entityHealth.SetMaxHealth(newHealth);
+			entityHealth.Health = newHealth;
+		}
+	}
 }

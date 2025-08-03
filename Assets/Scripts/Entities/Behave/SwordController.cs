@@ -81,6 +81,7 @@ public class SwordController : MonoBehaviour
 
 	private void SecondaryAttack()
 	{
+		CooldownCounter = 0f;
 		isSwung = true;
 		isPrimary = false;
 		animationHelper.CheckedSwapToSequence(BigSwing);
@@ -91,7 +92,6 @@ public class SwordController : MonoBehaviour
 
 	private void ResetAttackVariables()
 	{
-		CooldownCounter = 0f;
 		isSwung = isPrimary = false;
 		SmallSwingCollider.enabled = false;
 		BigSwingCollider.enabled = false;

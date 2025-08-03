@@ -1,10 +1,13 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public abstract class EnemyBehave : EntityBehave
 {
+	public bool ForceEnemyDrop;
 	public bool Dead;
 	private float DeadTimer;
+
 	protected PlayerController Player => FindAnyObjectByType<PlayerController>();
 
 	public int SightRange = 20;
@@ -77,7 +80,8 @@ public abstract class EnemyBehave : EntityBehave
 	}
 
 	protected virtual float DeathTimerMax => 1f;
-	protected virtual void OnDeathTimerEnd() 
+
+	protected virtual void OnDeathTimerEnd()
 		=> Destroy(gameObject);
 
 	public Vector2 TargetVector => TargetPos - (Vector2)transform.position;
@@ -89,5 +93,9 @@ public abstract class EnemyBehave : EntityBehave
 
 		Gizmos.DrawSphere(transform.position, SightRange);
 		Extensions.GizmosDrawRect(RoomArea);
+	}
+
+	public virtual void SetDifficultyChanges(int level, PlayerController playerController)
+	{
 	}
 }

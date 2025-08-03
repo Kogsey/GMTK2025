@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.DebugUI;
 
 public class FloorItem : MonoBehaviour
 {
@@ -6,6 +8,17 @@ public class FloorItem : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 	public float timePerFrame = 0.1f;
 	private AnimationHelper animationHelper;
+
+	public float FadeTime = 1f;
+	public float Timer;
+	public bool Obtained = false;
+
+	Light2D BackLight;
+
+	private void Awake()
+	{
+		BackLight = GetComponentInChildren<Light2D>();
+	}
 
 	public void SetItem(ItemDrop itemDrop)
 	{
@@ -16,10 +29,28 @@ public class FloorItem : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.TryGetComponent(out PlayerController player))
+		if (!Obtained && collision.TryGetComponent(out PlayerController player))
 		{
+			Obtained = true;
 			player.AddStatEffector(drop);
-			Destroy(gameObject);
+		}
+	}
+
+	private void Update()
+	{
+		animationHelper.Update();
+
+		if (Obtained)
+		{
+			Timer += Time.deltaTime;
+
+			if (Timer > FadeTime)
+				Destroy(gameObject);
+
+			Color lerpOut = Color.Lerp(Color.white, new Color(0, 0, 0, 0), Timer / FadeTime);
+			spriteRenderer.color = lerpOut;
+			if (BackLight != null)
+				BackLight.color = lerpOut;
 		}
 	}
 }

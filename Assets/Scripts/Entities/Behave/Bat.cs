@@ -5,7 +5,7 @@ public class Bat : EnemyBehave
 	private Animator animator;
 	private const float DeadGravity = 1f;
 
-	public float TrackingImpulse = 5f;
+	public float TrackingImpulse = 3f;
 	public float FlapImpulse = 5.19f;
 	public float BelowPlayerExtraImpulse = 1f;
 	public float AbovePlayerLostImpulse = 1f;
@@ -72,5 +72,22 @@ public class Bat : EnemyBehave
 		RigidBody.drag = 1f;
 		if (TryGetComponent(out Collider2D collision))
 			collision.isTrigger = false;
+	}
+
+	public override void SetDifficultyChanges(int level, PlayerController playerController)
+	{
+		base.SetDifficultyChanges(level, playerController);
+		TrackingImpulse *= Mathf.Pow(1.1f, level);
+
+		float damageMultiplier = Mathf.Max(1, playerController.DamageMultiplier);
+
+		float healthMultiplier = damageMultiplier * 0.9f;
+
+		if (TryGetComponent(out EntityHealth entityHealth))
+		{
+			int newHealth = Mathf.CeilToInt(entityHealth.MaxHealth * healthMultiplier);
+			entityHealth.SetMaxHealth(newHealth);
+			entityHealth.Health = newHealth;
+		}
 	}
 }

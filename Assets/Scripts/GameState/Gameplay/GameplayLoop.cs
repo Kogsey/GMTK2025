@@ -8,19 +8,19 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if (IsRealInstance && scene.name == StateManager.GameScreen || scene.name == StateManager.BossScreen)
+		if ((IsRealInstance && scene.name == StateManager.GameScreen) || scene.name == StateManager.BossScreen)
 		{
-			TileMapGenerator tileMapGenerator = FindAnyObjectByType<TileMapGenerator>();
-			if (tileMapGenerator != null)
-			{
-				tileMapGenerator.GenerateTileMap(Level);
-			}
-
 			PlayerController controller = FindAnyObjectByType<PlayerController>();
 			if (controller != null)
 			{
 				controller.WriteData(PlayerData);
 				PlayerData = null;
+			}
+
+			TileMapGenerator tileMapGenerator = FindAnyObjectByType<TileMapGenerator>();
+			if (tileMapGenerator != null)
+			{
+				tileMapGenerator.GenerateTileMap(Level);
 			}
 		}
 	}

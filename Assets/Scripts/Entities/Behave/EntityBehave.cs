@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public abstract class EntityBehave : MonoBehaviour
@@ -6,6 +7,7 @@ public abstract class EntityBehave : MonoBehaviour
 	public HitType EntityType;
 	protected Rigidbody2D RigidBody;
 	protected SpriteRenderer SpriteRenderer;
+	protected Light2D BackLight;
 	private Color _colour = Color.white;
 
 	protected virtual int FlipMod => 1;
@@ -18,7 +20,12 @@ public abstract class EntityBehave : MonoBehaviour
 	public Color BaseColour
 	{
 		get => _colour;
-		set => SpriteRenderer.color = _colour = value;
+		set
+		{
+			SpriteRenderer.color = _colour = value;
+			if (BackLight != null)
+				BackLight.color = value;
+		}
 	}
 
 	private void Start()
@@ -32,8 +39,8 @@ public abstract class EntityBehave : MonoBehaviour
 
 	protected virtual void InternalAwake()
 	{
+		BackLight = GetComponentInChildren<Light2D>();
 		RigidBody = GetComponent<Rigidbody2D>();
-
 		SpriteRenderer = GetComponent<SpriteRenderer>();
 	}
 

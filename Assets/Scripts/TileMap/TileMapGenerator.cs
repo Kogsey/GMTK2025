@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static TileMapHelpers;
-using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
 
 public class TileMapGenerator : MonoBehaviour
@@ -134,17 +134,23 @@ public class TileMapGenerator : MonoBehaviour
 		}
 
 		TileMapValidation.ValidateRooms(RoomsArray[^1], null);
-
+		List<EnemyBehave> _allEnemies = new();
 		for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
 		{
 			Room room = RoomsArray[roomI];
 			SetRoomTiles(room);
 
 			if (room.Type == Room.RoomType.Simple)
-				GenRoomEnemies(level, roomI, room);
+				GenRoomEnemies(level, roomI, room, _allEnemies);
 
 			GenRoomLamps(room);
 		}
+
+		int guaranteedBuffs = Mathf.CeilToInt(Mathf.Sqrt(level));
+		for (int i = 0; i < guaranteedBuffs; i++)
+			_allEnemies.PickRandom().ForceEnemyDrop = true;
+
+		_allEnemies.ForEach(enemy => enemy.SetDifficultyChanges(level, Player));
 
 		// Go to until the last room since it has no connections
 		for (int roomI = 0; roomI < RoomsArray.Length; roomI++)
@@ -221,7 +227,7 @@ public class TileMapGenerator : MonoBehaviour
 		BackdropFill(Foreground, room.ConnectionBounds.Inflate(ViewPadding), TileSet);
 	}
 
-	private void GenRoomEnemies(int level, int _, Room room)
+	private void GenRoomEnemies(int level, int _, Room room, List<EnemyBehave> enemyList)
 	{
 		(SpawnInfo primary, SpawnInfo support) = PickSpawnInfo();
 
@@ -231,7 +237,7 @@ public class TileMapGenerator : MonoBehaviour
 		min += (int)(primary.ExtraSpawnsPerLevelPrimary * (level - primary.MinimumSpawnLevel));
 		max += (int)(primary.ExtraSpawnsPerLevelPrimary * (level - primary.MinimumSpawnLevel));
 
-		GenRoomEnemies_Inner(room, min, max, primary);
+		GenRoomEnemies_Inner(room, min, max, primary, enemyList);
 
 		if (support != null)
 		{
@@ -241,11 +247,11 @@ public class TileMapGenerator : MonoBehaviour
 			min += (int)(support.ExtraSpawnsPerLevelSupport * (level - support.MinimumSpawnLevel));
 			max += (int)(support.ExtraSpawnsPerLevelSupport * (level - support.MinimumSpawnLevel));
 
-			GenRoomEnemies_Inner(room, min, max, support);
+			GenRoomEnemies_Inner(room, min, max, support, enemyList);
 		}
 	}
 
-	private void GenRoomEnemies_Inner(Room room, int minEnemies, int maxEnemies, SpawnInfo spawnInfo)
+	private void GenRoomEnemies_Inner(Room room, int minEnemies, int maxEnemies, SpawnInfo spawnInfo, List<EnemyBehave> enemyList)
 	{
 		int enemyCount = Random.Range(minEnemies, maxEnemies + 1);
 		for (int i = 0; i < enemyCount; i++)
@@ -261,6 +267,7 @@ public class TileMapGenerator : MonoBehaviour
 				throw new NotImplementedException();
 			}
 
+			enemyList.Add(enemyBehave);
 			room.AddRoomObject(enemyBehave.gameObject);
 		}
 	}

@@ -23,7 +23,7 @@ public class DropSystem : BetterSingleton<DropSystem>
 	{
 		int level = BetterSingleton<GameplayLoop>.Instance.Level;
 
-		if (Random.value <= DropChance)
+		if (enemyBehave.ForceEnemyDrop || Random.value <= DropChance)
 			DropNewFrom(level, enemyBehave);
 	}
 }
