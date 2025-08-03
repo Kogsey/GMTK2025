@@ -51,6 +51,7 @@ public class StateManager : BetterSingleton<StateManager>
 	public const string GameScreen = "Primary Level";
 	public const string WinScreen = "Win Game";
 	public const string LoseScreen = "Lose Game";
+	public const string BossScreen = "Boss Level";
 
 	public void Update()
 	{

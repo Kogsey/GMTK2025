@@ -30,7 +30,15 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 		PlayerController controller = FindAnyObjectByType<PlayerController>();
 		PlayerData = controller.ReadData();
 		Level++;
-		SceneManager.LoadScene(StateManager.GameScreen);
+
+		if (Level >= 10)
+			SceneManager.LoadScene(StateManager.BossScreen);
+		else
+			SceneManager.LoadScene(StateManager.GameScreen);
+	}
+
+	public void OnBossBeaten()
+	{
 	}
 
 	public void OnDeath()
@@ -46,7 +54,7 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 			SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
 		if (IsRealInstance)
 			SceneManager.sceneLoaded -= OnSceneLoaded;
