@@ -39,8 +39,8 @@ public class GameplayLoop : BetterSingleton<GameplayLoop>
 
 	public void OnBossBeaten()
 	{
-		PlayerController controller = FindAnyObjectByType<PlayerController>();
-		PlayerData = controller.ReadData();
+		//PlayerController controller = FindAnyObjectByType<PlayerController>();
+		//PlayerData = controller.ReadData();
 		Level = 0;
 		SceneManager.LoadScene(StateManager.WinScreen);
 	}

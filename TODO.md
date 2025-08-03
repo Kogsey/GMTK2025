@@ -1,6 +1,5 @@
 # GMTK 2025 TODO list
 
-- [ ] Names???
 - Gameplay
   - [X] Boss AI / Boss Room
     - [X] Room
@@ -11,12 +10,12 @@
   - [ ] Platforms
   - [ ] Better level transitions
   - [ ] Balance
-  - [ ] Incremental enemy difficulty
+  - [X] Incremental enemy difficulty
   - [X] Random Skull Colours
 - [X] Lighting
   - [X] Add Lights to enemies
   - [X] Dynamic Room Brightness
-  - [ ] Lights on drops
+  - [X] Lights on drops
 - [X] Random Drops
   - [X] Increased Damage
   - [X] Increased Health

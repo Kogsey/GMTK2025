@@ -38,6 +38,8 @@ public class PlayerController : EntityBehave, ISingleton
 
 	public float DodgeSpeedOverride;
 
+	public float DodgeSpeed;
+
 	public bool InDodgeRails;
 	public float DodgeNoImmuneTime;
 	private bool IsDodgeImmune => InDodgeRails && DodgeStateTimer <= (DodgeTime - DodgeNoImmuneTime);
@@ -113,6 +115,7 @@ public class PlayerController : EntityBehave, ISingleton
 	public void RegenerateStats()
 	{
 		DodgeTime = BaseDodgeTime;
+		DodgeSpeed = DodgeSpeedOverride;
 		MaxHealth = 10;
 		AttackSpeed = 1;
 		DamageMultiplier = 1;
@@ -328,7 +331,7 @@ public class PlayerController : EntityBehave, ISingleton
 
 		if (InDodgeRails)
 		{
-			Velocity.SetVelocity(DodgeSpeedOverride * -FaceDirection * Vector2.right);
+			Velocity.SetVelocity(DodgeSpeed * -FaceDirection * Vector2.right);
 
 			if (DodgeStateTimer <= 0)
 			{
@@ -365,12 +368,16 @@ public class PlayerController : EntityBehave, ISingleton
 
 	public void CapSpeed()
 	{
-		if (!CanJump)
+		if (!InDodgeRails)
 		{
-			CapFall(/*JumpState == Jump.Floating ? FloatSpeedCap :*/ FallSpeedCap);
-			CapMovement(AirSpeedCap);
+			if (!CanJump)
+			{
+				CapFall(/*JumpState == Jump.Floating ? FloatSpeedCap :*/ FallSpeedCap);
+				CapMovement(AirSpeedCap);
+			}
+
+			CapMovement(GroundSpeedCap);
 		}
-		CapMovement(GroundSpeedCap);
 	}
 
 	public void CapFall(float speed)
@@ -488,6 +495,7 @@ public class PlayerController : EntityBehave, ISingleton
 			healthData._health = playerData.PlayerHealth;
 			healthData.SupressReset();
 			StatBoosts = playerData.StatBoosts;
+			RegenerateStats();
 		}
 	}
 

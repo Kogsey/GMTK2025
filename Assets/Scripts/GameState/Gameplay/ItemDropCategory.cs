@@ -41,14 +41,10 @@ public class ItemDropCategory
 
 public interface IPlayerStatEffector
 {
-	/// <summary>
-	/// Called every stat regen
-	/// </summary>
+	/// <summary> Called every stat regen </summary>
 	void ApplyConstantEffect(PlayerController playerController);
 
-	/// <summary>
-	/// Called Once when the item is picked up
-	/// </summary>
+	/// <summary> Called Once when the item is picked up </summary>
 	void ApplyInstantEffect(PlayerController playerController);
 }
 
@@ -64,6 +60,7 @@ public class ItemDrop : IPlayerStatEffector
 			case ItemDropType.HealthRegen:
 				playerController.AddHealthRegen((int)Value);
 				break;
+
 			case ItemDropType.IncreasedHealth:
 				playerController.AddHealthRegen((int)Value, true);
 				break;
@@ -93,7 +90,7 @@ public class ItemDrop : IPlayerStatEffector
 				break;
 
 			case ItemDropType.LongerDodge:
-				playerController.DodgeTime *= Value;
+				playerController.DodgeSpeed *= Value;
 				break;
 
 			default:

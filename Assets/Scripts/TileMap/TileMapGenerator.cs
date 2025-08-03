@@ -170,7 +170,7 @@ public class TileMapGenerator : MonoBehaviour
 
 		Room finalRoom = RoomsArray[^1];
 		RectInt endTileBounds = finalRoom.ConnectionBounds;
-		endTileBounds.xMin += 1;
+		endTileBounds.xMin += 10;
 		Rect endRect = Foreground.CellToWorld(endTileBounds);
 
 		NextLevelCollider nextLevelCollider = Instantiate(NextLevel);

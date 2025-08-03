@@ -14,7 +14,7 @@ public record Settings
 	public KeyCode Secondary = KeyCode.Mouse1;
 
 	public float Volume = 0.5f;
-	public bool MuteMusic = true;
+	public bool MuteMusic = false;
 
 	public static readonly Settings DefaultSettings = new();
 	public static readonly Settings CelesteStyleSettings = new()
