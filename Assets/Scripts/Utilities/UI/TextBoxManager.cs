@@ -11,7 +11,7 @@ public class TextBoxManager : MonoBehaviour
 		"Well that didn't go so well. Remember to actually dodge next time!",
 		"Isn't the idea not to get hit? One might think you actually like getting pulled back to this dump.",
 		"Hey! Don't forget your half of the rent is due! Would be nice to get it before you disappear Up Top.",
-		"Man you're lucky we work in a weapons factory. No way you'd be able to steal such a nice sword if you worked in the agricultural fields.",
+		"Man you're lucky we work the a weapons factory. No way you'd be able to steal such a nice sword if you worked in the agricultural fields.",
 		"Annnd your back - don't tell me you missed your dear old roommate! ... no? ... ah well never mind then.",
 		"You almost had it that time... or not. I don't know, I'm not really keeping track here."
 	};
