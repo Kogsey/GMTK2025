@@ -712,7 +712,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The End
+  m_text: Rest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -847,9 +847,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "With a graceful leap over the enemy guard, the princess was reunited with
-    her friend and after giving a final glance at Dr. Cogsworth\u2019s warehouse,
-    the two made their way home.\r\n\r"
+  m_text: "Fresh air fills your lungs as you take your first step Up Top, pausing,
+    to observe the vibrant colours and lush greenery. \nIn the distance you can just
+    make out the melodic chirping of birds, and you feel the stress melt off... \n\nYou
+    needed this.\n\r\nYou\u2019ll be dragged back down sooner or later, but for now
+    you can rest easy.\r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -876,8 +878,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
