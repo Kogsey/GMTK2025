@@ -152,6 +152,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1160356261127867848, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: -2792158270686782831, guid: e345a75e709d36748b50ed01162287e2, type: 3}
     - target: {fileID: 2627155579619779141, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       propertyPath: m_ShadowShape2DProvider
       value: 9192508804184670212
@@ -164,6 +168,10 @@ PrefabInstance:
       propertyPath: 'managedReferences[9192508804184670212]'
       value: Unity.RenderPipelines.Universal.2D.Runtime UnityEngine.Rendering.Universal.ShadowShape2DProvider_Collider2D
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -9155401025367024974, guid: e345a75e709d36748b50ed01162287e2, type: 3}
     - target: {fileID: 3626916397498700004, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       propertyPath: m_SortingLayer
       value: 4
@@ -178,11 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.511
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.333
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       propertyPath: m_LocalPosition.z
@@ -241,6 +249,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
       insertIndex: -1
       addedObject: {fileID: 189942660102661341}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8942608604364961250}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
 --- !u!1 &1629319533186235542 stripped
 GameObject:
@@ -355,6 +366,7 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 0}
   DamageMeColliders: []
   CheatHealth: 0
+  _health: 0
   MaxHealth: 10
   ImmunityTimer:
     <Time>k__BackingField: 0
@@ -378,8 +390,30 @@ MonoBehaviour:
     HitType: 2
     RawDamage: 1
     Pierce: 1
+--- !u!114 &8942608604364961250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629319533186235542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adaa4b7518413624c996a9c7a1fc4801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 7367493118900905526}
+  Variants:
+  - {fileID: -2030791515850615560, guid: 932f4d8c24c2a2e4d8c66e69cb3185fb, type: 3}
+  - {fileID: -7743950564863974651, guid: a7df0db89c3ee4c4f97d9d5b37e165be, type: 3}
+  - {fileID: -8777572620708947865, guid: e345a75e709d36748b50ed01162287e2, type: 3}
 --- !u!4 &1977498000224425203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
+  m_PrefabInstance: {fileID: 8513208659903540222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7367493118900905526 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1160356261127867848, guid: 730eacc760dc7034cb75dec3fac2f153, type: 3}
   m_PrefabInstance: {fileID: 8513208659903540222}
   m_PrefabAsset: {fileID: 0}

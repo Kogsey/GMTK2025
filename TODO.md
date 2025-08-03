@@ -9,6 +9,7 @@
   - [ ] Platforms
   - [ ] Better level transitions
   - [ ] Balance
+  - [X] Random Skull Colours
 - [X] Lighting
   - [X] Add Lights to enemies
   - [X] Dynamic Room Brightness

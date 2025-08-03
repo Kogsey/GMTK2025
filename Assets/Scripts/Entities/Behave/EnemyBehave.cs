@@ -5,13 +5,17 @@ public abstract class EnemyBehave : EntityBehave
 {
 	public bool Dead;
 	private float DeadTimer;
-	private PlayerController Player => FindAnyObjectByType<PlayerController>();
+	protected PlayerController Player => FindAnyObjectByType<PlayerController>();
 
 	public int SightRange = 20;
 	public int AlreadySeenSightRange = 20;
 
-	public bool HasTarget { get; set; }
-	public Vector2 TargetPos { get; set; }
+	private bool _hasTarget;
+	public virtual bool HasTarget => _hasTarget;
+	private Vector2 _targetPos;
+	public virtual Vector2 TargetPos => _targetPos;
+
+	public virtual bool AutoFlip => true;
 	public Rect RoomArea;
 
 	public float maxFlipTimer = 1f;
@@ -43,20 +47,23 @@ public abstract class EnemyBehave : EntityBehave
 
 		if (PlayerInRoom() || CanSee(Player.transform.position))
 		{
-			HasTarget = true;
-			TargetPos = Player.transform.position;
+			_hasTarget = true;
+			_targetPos = Player.transform.position;
 		}
 		else
 		{
-			HasTarget = false;
+			_hasTarget = false;
 		}
 
-		flipTimer -= Time.deltaTime;
-		int preferredFaceDirection = -(int)Mathf.Sign(RigidBody.velocityX);
-		if (preferredFaceDirection != FaceDirection && (preferredFaceDirection == -1 || preferredFaceDirection == 1) && flipTimer <= 0)
+		if (AutoFlip)
 		{
-			flipTimer = maxFlipTimer;
-			FaceDirection = preferredFaceDirection;
+			flipTimer -= Time.deltaTime;
+			int preferredFaceDirection = -(int)Mathf.Sign(RigidBody.velocityX);
+			if (preferredFaceDirection != FaceDirection && (preferredFaceDirection == -1 || preferredFaceDirection == 1) && flipTimer <= 0)
+			{
+				flipTimer = maxFlipTimer;
+				FaceDirection = preferredFaceDirection;
+			}
 		}
 	}
 
