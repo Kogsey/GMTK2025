@@ -6,16 +6,25 @@ using UnityEngine.Tilemaps;
 
 public static class TileMapValidation
 {
+	/// <summary> </summary>
+	/// <param name="left"> Not null </param>
+	/// <param name="right"> Allows null </param>
 	public static void ValidateRooms(Room left, Room right)
 	{
-		FixImpossibleHallHeight(left, right);
-		FixImpossibleHallHeight(left, right);
+		if (right != null)
+		{
+			FixImpossibleHallHeight(left, right);
+			FixImpossibleHallHeight(left, right);
+
+			FixRoomShorterThanHall(right, left);
+		}
 
 		FixRoomShorterThanHall(left, left);
-		FixRoomShorterThanHall(right, left);
 
 		LastCheckPrintMistakes(left, left.ConnectionBounds);
-		LastCheckPrintMistakes(right, left.ConnectionBounds);
+
+		if (right != null)
+			LastCheckPrintMistakes(right, left.ConnectionBounds);
 	}
 
 	private static void FixImpossibleHallHeight(Room left, Room right)

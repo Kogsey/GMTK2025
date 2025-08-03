@@ -1,15 +1,20 @@
+using System;
+using UnityEngine;
+
 public enum ItemDropType
 {
-	IncreasedDamage,
 	IncreasedHealth,
-	LongerDodge,
+	FasterAttack,
+	IncreasedDamage,
 	HealthRegen,
-	FasterAttack
+	LongerDodge,
 }
 
+[Serializable]
 public class ItemDropCategory
 {
 	public ItemDropType Type;
+	public Sprite[] Sprites;
 
 	public float Mean;
 
@@ -34,8 +39,17 @@ public class ItemDropCategory
 	}
 }
 
-public class ItemDrop
+public interface IPlayerStatEffector
+{
+	public void Set(PlayerController playerController);
+}
+
+public class ItemDrop : IPlayerStatEffector
 {
 	public ItemDropType Category;
 	public float Value;
+
+	public void Set(PlayerController playerController)
+	{
+	}
 }

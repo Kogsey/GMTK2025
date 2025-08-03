@@ -21,6 +21,12 @@ public abstract class EntityBehave : MonoBehaviour
 		=> InternalStart();
 
 	protected virtual void InternalStart()
+	{ }
+
+	private void Awake()
+		=> InternalAwake();
+
+	protected virtual void InternalAwake()
 	{
 		RigidBody = GetComponent<Rigidbody2D>();
 
